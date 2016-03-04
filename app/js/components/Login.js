@@ -70,7 +70,7 @@ export default class Login extends React.Component {
 
     render() {
         const { alert } = this.props
-        let alertBox = <Alert className={'feb-alert animated ' + (alert.show ? 'fadeInDown' : 'fadeOutUp')} bsStyle={alert.type}
+        let alertBox = <Alert className={'alert animated ' + (alert.show ? 'fadeInDown' : 'fadeOutUp')} bsStyle={alert.type}
                               onDismiss={this.hideAlert.bind(this)}>
             <div className='text-center'>{alert.message}</div>
         </Alert>
