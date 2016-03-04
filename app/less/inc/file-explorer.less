@@ -54,7 +54,7 @@
 
 			&:last-child {
 				.animation-name(feba-btn-anim);
-				.animation-duration(250ms);
+				.animation-duration(100ms);
 			}
 		}
 
@@ -134,16 +134,17 @@
 	}
 
 	.modal-dialog {
+		.animated(fadeIn, 400ms);
+		width: 330px;
+		position: fixed;
+		right: 25px;
+		bottom: 100px;
 		margin: 0;
-		width: 100%;
-		height: 100%;
 	}
 
 	.modal-content {
-		width: 330px;
-		position: fixed;
-		right: 30px;
-		bottom: 100px;
+		width: 100%;
+		height: 100%;
 	}
 
 	.modal-body {

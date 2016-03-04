@@ -282,8 +282,7 @@ export default class Browse extends React.Component {
         dispatch(actions.showAbout())
     }
 
-    hideAbout(e) {
-        e.preventDefault()
+    hideAbout() {
         const { dispatch } = this.props
         dispatch(actions.hideAbout())
     }
@@ -591,23 +590,20 @@ export default class Browse extends React.Component {
                             </OverlayTrigger>
                         </div>
                     </div>
-                    <div>
-                        <Modal className="feb-modal" aria-labelledby="contained-modal-title-sm"
-                               show={showMakeBucketModal}
-                               onHide={this.hideMakeBucketModal.bind(this)}>
 
-                            <button className="close" onClick={this.hideMakeBucketModal.bind(this)}><span>&times;</span></button>
+                    <Modal className="feb-modal" animation={false} show={showMakeBucketModal} onHide={this.hideMakeBucketModal.bind(this)}>
 
-                            <ModalBody>
-                                <form onSubmit={this.makeBucket.bind(this)}>
-                                    <div className="create-bucket">
-                                        <input type="text" autofocus ref="makeBucketRef" placeholder="Bucket Name"/>
-                                        <i></i>
-                                    </div>
-                                </form>
-                            </ModalBody>
-                        </Modal>
-                    </div>
+                        <button className="close" onClick={this.hideMakeBucketModal.bind(this)}><span>&times;</span></button>
+
+                        <ModalBody>
+                            <form onSubmit={this.makeBucket.bind(this)}>
+                                <div className="create-bucket">
+                                    <input type="text" autofocus ref="makeBucketRef" placeholder="Bucket Name"/>
+                                    <i></i>
+                                </div>
+                            </form>
+                        </ModalBody>
+                    </Modal>
 
                     <Modal  className="about-modal" show={showAbout} onHide={this.hideAbout.bind(this)}>
                         <div className="am-inner">
