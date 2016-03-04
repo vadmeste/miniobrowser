@@ -31,7 +31,10 @@ const isZip = (name, contentType) => {
 }
 
 const isCode = (name, contentType) => {
-  const codeExt = ['c', 'cpp', 'go', 'py', 'java', 'rb', 'js', 'pl']
+  const codeExt =  ['c', 'cpp', 'go', 'py', 'java', 'rb', 'js', 'pl', 'fs',
+                    'php', 'css', 'less', 'scss', 'coffee', 'net', 'html',
+                    'rs', 'exs', 'scala', 'hs', 'clj', 'el', 'scm', 'lisp',
+                    'asp', 'aspx']
   const ext = name.split('.').reverse()[0]
   for (var i in codeExt) {
     if (ext === codeExt[i]) return true
