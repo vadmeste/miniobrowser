@@ -399,9 +399,14 @@ export default class Browse extends React.Component {
 
     hideSidebar(event){
         let e = event || window.event;
-        let target = e.srcElement.id
 
-        if (!(target === 'mh-trigger')) {
+        // Support all browsers.
+        let target = e.srcElement || e.target;
+        if (target.nodeType === 3) // Safari support.
+            target = target.parentNode;
+
+        let targetID = target.id;
+        if (!(targetID === 'mh-trigger')) {
             this.props.dispatch(actions.setSidebarStatus(false))
         }
     }

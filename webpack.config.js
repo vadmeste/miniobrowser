@@ -54,6 +54,9 @@ var exports = {
       {from: 'node_modules/jquery/dist/jquery.min.js'},
       {from: 'node_modules/bootstrap/dist/js/bootstrap.min.js'},
       {from: 'app/img/favicon.ico'},
+      {from: 'app/img/browsers/chrome.png'},
+      {from: 'app/img/browsers/firefox.png'},
+      {from: 'app/img/browsers/safari.png'},
       {from: 'app/img/logo.svg'},
       {from: 'app/index.html'}
     ]),
