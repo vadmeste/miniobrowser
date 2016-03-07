@@ -28,6 +28,9 @@ import Alert from 'react-bootstrap/lib/Alert'
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger'
 import Tooltip from 'react-bootstrap/lib/Tooltip'
 import Scrollbars from 'react-custom-scrollbars/lib/Scrollbars'
+import Dropdown from 'react-bootstrap/lib/Dropdown'
+import MenuItem from 'react-bootstrap/lib/MenuItem'
+
 
 
 import logo from '../../img/logo.svg'
@@ -149,7 +152,7 @@ let BrowserUpdate = ({latestUiVersion}) => {
   if (latestUiVersion === currentUiVersion) return <noscript></noscript>
   return  <li className="hidden-xs hidden-sm">
             <a href="">
-                <OverlayTrigger placement="left" overlay={<Tooltip>New update available. Click to refresh.</Tooltip>}>
+                <OverlayTrigger placement="left" overlay={<Tooltip id="tt-version-update">New update available. Click to refresh.</Tooltip>}>
                     <i className="fa fa-refresh"></i>
                 </OverlayTrigger>
             </a>
@@ -461,9 +464,9 @@ export default class Browse extends React.Component {
                 cancelHandler={this.hideAbortModal.bind(this)}>
             </ConfirmModal>
         }
-        let signoutTooltip = <Tooltip>Sign out</Tooltip>
-        let uploadTooltip = <Tooltip>Upload file</Tooltip>
-        let makeBucketTooltip = <Tooltip>Create bucket</Tooltip>
+        let signoutTooltip = <Tooltip id="tt-sign-out">Sign out</Tooltip>
+        let uploadTooltip = <Tooltip id="tt-upload-file">Upload file</Tooltip>
+        let makeBucketTooltip = <Tooltip id="tt-create-bucket">Create bucket</Tooltip>
 
         let used = total - free
         let usedPercent = (used / total) * 100+'%'
@@ -509,27 +512,29 @@ export default class Browse extends React.Component {
 
                         <ul className="feh-actions">
                             <BrowserUpdate />
-                            <li className="dropdown">
-                                <a href="" data-toggle="dropdown">
-                                    <i className="fa fa-reorder"></i>
-                                </a>
-                                <ul className="dropdown-menu dm-right pull-right">
-                                    <li>
-                                        <a target="_blank" href="https://github.com/minio/miniobrowser">Github <i className="fa fa-github"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="" onClick={this.fullScreen.bind(this)}>Fullscreen <i className="fa fa-expand"></i></a>
-                                    </li>
-                                    <li>
-                                        <a target="_blank" href="https://gitter.im/minio/minio">Ask for help <i className="fa fa-question-circle"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="" onClick={this.showAbout.bind(this)}>About <i className="fa fa-info-circle"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="" onClick={this.logout.bind(this)}>Sign Out <i className="fa fa-sign-out"></i></a>
-                                    </li>
-                                </ul>
+                            <li>
+                                <Dropdown pullRight id="top-right-menu">
+                                    <Dropdown.Toggle noCaret>
+                                        <i className="fa fa-reorder"></i>
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu className="dm-right">
+                                        <li>
+                                            <a target="_blank" href="https://github.com/minio/miniobrowser">Github <i className="fa fa-github"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="" onClick={this.fullScreen.bind(this)}>Fullscreen <i className="fa fa-expand"></i></a>
+                                        </li>
+                                        <li>
+                                            <a target="_blank" href="https://gitter.im/minio/minio">Ask for help <i className="fa fa-question-circle"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="" onClick={this.showAbout.bind(this)}>About <i className="fa fa-info-circle"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="" onClick={this.logout.bind(this)}>Sign Out <i className="fa fa-sign-out"></i></a>
+                                        </li>
+                                    </Dropdown.Menu>
+                                </Dropdown>
                             </li>
                         </ul>
                     </header>
@@ -569,10 +574,12 @@ export default class Browse extends React.Component {
                         <ObjectsList removeObject={this.removeObject.bind(this)} dataType={this.dataType.bind(this)} selectPrefix={this.selectPrefix.bind(this)}/>
                     </div>
                     {progressBar}
-                    <div className="dropup feb-actions">
-                        <a href="" data-toggle="dropdown" className="feba-toggle"><i className="fa fa-plus"></i></a>
 
-                        <div className="dropdown-menu">
+                    <Dropdown dropup className="feb-actions" id="fe-action-toggle">
+                        <Dropdown.Toggle noCaret className="feba-toggle">
+                            <span><i className="fa fa-plus"></i></span>
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
                             <OverlayTrigger placement="left" overlay={uploadTooltip}>
                                 <a href="#" className="feba-btn feba-upload">
                                     <input type="file" onChange={this.uploadFile.bind(this)} style={{display:'none'}}
@@ -588,8 +595,8 @@ export default class Browse extends React.Component {
                                     <i className="fa fa-hdd-o"></i>
                                 </a>
                             </OverlayTrigger>
-                        </div>
-                    </div>
+                        </Dropdown.Menu>
+                    </Dropdown>
 
                     <Modal className="feb-modal" animation={false} show={showMakeBucketModal} onHide={this.hideMakeBucketModal.bind(this)}>
 
