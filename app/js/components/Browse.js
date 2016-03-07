@@ -152,7 +152,7 @@ let BrowserUpdate = ({latestUiVersion}) => {
   if (latestUiVersion === currentUiVersion) return <noscript></noscript>
   return  <li className="hidden-xs hidden-sm">
             <a href="">
-                <OverlayTrigger placement="left" overlay={<Tooltip>New update available. Click to refresh.</Tooltip>}>
+                <OverlayTrigger placement="left" overlay={<Tooltip id="tt-version-update">New update available. Click to refresh.</Tooltip>}>
                     <i className="fa fa-refresh"></i>
                 </OverlayTrigger>
             </a>
@@ -464,9 +464,9 @@ export default class Browse extends React.Component {
                 cancelHandler={this.hideAbortModal.bind(this)}>
             </ConfirmModal>
         }
-        let signoutTooltip = <Tooltip>Sign out</Tooltip>
-        let uploadTooltip = <Tooltip>Upload file</Tooltip>
-        let makeBucketTooltip = <Tooltip>Create bucket</Tooltip>
+        let signoutTooltip = <Tooltip id="tt-sign-out">Sign out</Tooltip>
+        let uploadTooltip = <Tooltip id="tt-upload-file">Upload file</Tooltip>
+        let makeBucketTooltip = <Tooltip id="tt-create-bucket">Create bucket</Tooltip>
 
         let used = total - free
         let usedPercent = (used / total) * 100+'%'
