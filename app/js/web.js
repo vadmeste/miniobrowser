@@ -51,8 +51,10 @@ export default class Web {
       if (!Moment(result.uiVersion).isValid()) {
         throw new Error("Invalid UI version in the JSON-RPC response")
       }
-      if (result.uiVersion !== currentUiVersion) {
-        this.dispatch(actions.setLatestUIVersion(result.uiVersion))
+      if (result.uiVersion !== currentUiVersion
+          && currentUiVersion !== 'MINIO_UI_VERSION') {
+        localStorage.newlyUpdated = true
+        location.reload()
       }
       return result
     })

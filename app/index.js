@@ -105,3 +105,8 @@ function handleLoader() {
     }
 }
 handleLoader()
+
+if (localStorage.newlyUpdated) {
+  store.dispatch(actions.showAlert({type: 'success', message: "Updated to the latest UI Version."}))
+  delete(localStorage.newlyUpdated)
+}
