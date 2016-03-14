@@ -193,9 +193,14 @@
     About
 ----------------------------*/
 .about-modal {
-    .modal-content {
-        background-color: @dark-gray;
-        box-shadow: 0 2px 13px rgba(0, 0, 0, 0.5);
+    @media (max-width: @screen-xs-max) {
+        text-align: center;
+
+        .modal-dialog {
+            max-width: 400px;
+            width: 90%;
+            margin: 20px auto 0;
+        }
     }
 }
 
@@ -206,15 +211,16 @@
     min-height: 350px;
     position: relative;
 
-    &:before {
-        content: '';
-        width: 150px;
-        height: 100%;
-        top: 0;
-        left: 0;
-        position: absolute;
-        background-color: #23282C;
-
+    @media (min-width: @screen-sm-min) {
+        &:before {
+            content: '';
+            width: 150px;
+            height: 100%;
+            top: 0;
+            left: 0;
+            position: absolute;
+            background-color: #23282C;
+        }
     }
 }
 

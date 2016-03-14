@@ -611,9 +611,9 @@ export default class Browse extends React.Component {
                         </ModalBody>
                     </Modal>
 
-                    <Modal  className="about-modal" show={showAbout} onHide={this.hideAbout.bind(this)}>
+                    <Modal className="about-modal modal-dark" show={showAbout} onHide={this.hideAbout.bind(this)}>
                         <div className="am-inner">
-                            <div className="ami-item">
+                            <div className="ami-item hidden-xs">
                                 <a href="https://minio.io" target="_blank">
                                    <img className="amii-logo" src={logo} alt=""/>
                                 </a>
