@@ -30,8 +30,7 @@ import Tooltip from 'react-bootstrap/lib/Tooltip'
 import Scrollbars from 'react-custom-scrollbars/lib/Scrollbars'
 import Dropdown from 'react-bootstrap/lib/Dropdown'
 import MenuItem from 'react-bootstrap/lib/MenuItem'
-
-
+import InputGroup from '../components/InputGroup'
 
 import logo from '../../img/logo.svg'
 
