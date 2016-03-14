@@ -411,11 +411,21 @@ export default class Browse extends React.Component {
             this.props.dispatch(actions.setSidebarStatus(false))
         }
     }
+    
+    showPreferences(e) {
+        e.preventDefault()
+        const { dispatch } = this.props
+        dispatch(actions.showPreferences())
+    }
+
+    hidePreferences() {
+        const { dispatch } = this.props
+        dispatch(actions.hidePreferences())
+    }
 
     render() {
         const { total, free } = this.props.diskInfo
-        const { showMakeBucketModal, showAbortModal, upload, alert, sortNameOrder, sortSizeOrder, sortDateOrder } = this.props
-        const { showAbout } = this.props
+        const { showMakeBucketModal, showAbortModal, upload, alert, sortNameOrder, sortSizeOrder, sortDateOrder, showAbout, showPreferences } = this.props
         const { version, memory, platform, runtime } = this.props.serverInfo
         const { sidebarStatus } = this.props
 
@@ -530,6 +540,9 @@ export default class Browse extends React.Component {
                                             <a href="" onClick={this.showAbout.bind(this)}>About <i className="fa fa-info-circle"></i></a>
                                         </li>
                                         <li>
+                                            <a href="" onClick={this.showPreferences.bind(this)}>Preferences <i className="fa fa-cog"></i></a>
+                                        </li>
+                                        <li>
                                             <a href="" onClick={this.logout.bind(this)}>Sign Out <i className="fa fa-sign-out"></i></a>
                                         </li>
                                     </Dropdown.Menu>
@@ -642,6 +655,39 @@ export default class Browse extends React.Component {
                                 </span>
                             </div>
                         </div>
+                    </Modal>
+                    
+                    <Modal className="modal-dark" bsSize="sm" show={showPreferences} onHide={this.hidePreferences.bind(this)}>
+                        <ModalHeader>
+                            Change Password
+                        </ModalHeader>
+                        <ModalBody>
+                            <div className="p-relative" style={{ paddingRight: '35px' }}>
+                                <InputGroup label="Access Key" ref="" name="accesskey" type="text" spellCheck="false" required="required" autoComplete="false" align="ig-left"></InputGroup>
+
+                                <i className="toggle-password fa fa-eye" />
+                            </div>
+
+                            <div className="p-relative" style={{ paddingRight: '35px' }}>
+                                <InputGroup label="Secret Key" ref="" name="accesskey" type="text" spellCheck="false" required="required" autoComplete="false" align="ig-left"></InputGroup>
+
+                                <i className="toggle-password fa fa-eye" />
+                            </div>
+                            
+                            <div className="clearfix" />
+
+                            <div className="form-footer clearfix">
+                                <a href="" className="ff-btn ff-key-gen">
+                                    <i className="fa fa-repeat"></i>
+                                </a>
+                                <a href="" className="ff-btn">
+                                    <i className="fa fa-check"></i>
+                                </a>
+                                <a href="" className="ff-btn">
+                                    <i className="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </ModalBody>
                     </Modal>
                 </div>
             </div>
