@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import classNames from 'classnames'
-import connect from '../../../node_modules/react-redux/lib/components/connect'
-
 let InputGroup = ({label, id, name, type, spellCheck, required, autoComplete, align}) => {
     return <div className={"input-group " + align}>
         <input id={id} name={name} className="ig-text" type={type} spellCheck={spellCheck} required={required} autoComplete={autoComplete}/>
@@ -26,7 +22,6 @@ let InputGroup = ({label, id, name, type, spellCheck, required, autoComplete, al
             <i></i><i></i>
         </div>
     </div>
-
 }
 
 export default InputGroup 
