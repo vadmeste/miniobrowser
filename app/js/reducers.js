@@ -104,6 +104,9 @@ export default (state = {buckets:[], visibleBuckets:[], objects:[], diskInfo:{},
     case actions.SET_LOAD_PATH:
       newState.loadPath = action.loadPath
       break
+    case actions.SHOW_PREFERENCES:
+      newState.showPreferences = action.showPreferences
+      break
   }
   return newState
 }

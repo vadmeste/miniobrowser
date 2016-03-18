@@ -42,6 +42,7 @@ export const SET_SIDEBAR_STATUS = 'SET_SIDEBAR_STATUS'
 export const SET_LOGIN_REDIRECT_PATH = 'SET_LOGIN_REDIRECT_PATH'
 export const SET_LOAD_BUCKET = 'SET_LOAD_BUCKET'
 export const SET_LOAD_PATH = 'SET_LOAD_PATH'
+export const SHOW_PREFERENCES = 'SHOW_PREFERENCES'
 
 export const setLoginRedirectPath = (path) => {
   return {
@@ -338,4 +339,18 @@ export const setLatestUIVersion = (latestUiVersion) => {
     type: SET_LATEST_UI_VERSION,
     latestUiVersion
   }
+}
+
+export const showPreferences = () => {
+    return {
+        type: SHOW_PREFERENCES,
+        showPreferences: true
+    }
+}
+
+export const hidePreferences = () => {
+    return {
+        type: SHOW_PREFERENCES,
+        showPreferences: false
+    }
 }

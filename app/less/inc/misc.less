@@ -94,57 +94,33 @@
 /*--------------------------
     Modal
 ----------------------------*/
+.modal-header {
+	color: rgba(255, 255, 255, 0.4);
+	font-size: 13px;
+	text-transform: uppercase;
+
+	small {
+		display: block;
+		text-transform: none;
+		font-size: 12px;
+		margin-top: 3px;
+		color: rgba(255, 255, 255, 0.2);
+	}
+}
+
 .modal-content {
 	border-radius: 3px;
 	box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
 }
 
-.abort-upload {
-	.modal-dialog {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-
+.modal-dark {
 	.modal-content {
-		width: 510px;
-		height: 105px;
-		position: fixed;
-		right: 19px;
-		bottom: 17px;
-		background-color: #F55D5D;
-		color: #fff;
-		text-align: center;
-	}
-
-	.cm-text {
-		margin-bottom: 10px;
-		font-size: 14px;
-		margin-top: 4px;
-	}
-
-	.cmf-btn {
-		border: 0;
-		background: rgba(255, 255, 255, 0.2);
-		margin: 0 5px;
-		border-radius: 2px;
-		color: #FFFFFF;
-		font-size: 13px;
-		padding: 7px 12px;
-		position: relative;
-
-		& > i {
-			font-size: 11px;
-			margin-right: 8px;
-			position: relative;
-			top: -1px;
-		}
-
-		&:hover {
-			background-color: rgba(255, 255, 255, 0.3);
-		}
+		background-color: @dark-gray;
+		box-shadow: 0 2px 13px rgba(0, 0, 0, 0.5);
 	}
 }
+
+
 
 /*--------------------------
     Dropdown
@@ -207,5 +183,171 @@
 			background-color: rgba(255, 255, 255, 0.25);
 			color: #fff;
 		}
+	}
+}
+
+/*--------------------------
+    Input Group
+----------------------------*/
+.input-group {
+	position: relative;
+	&:not(:last-child) {
+		margin-bottom: 20px;
+	}
+}
+
+.ig-label {
+	position: absolute;
+	text-align: center;
+	bottom: 7px;
+	left: 0;
+	width: 100%;
+	color: rgba(255, 255, 255, 0.55);
+	font-size: 15px;
+	transition: all 150ms;
+	.transition(all);
+	.transition-duration(150ms);
+	padding: 2px 0 3px;
+	border-radius: 2px;
+	font-weight: 400;
+}
+
+.ig-helpers {
+	position: relative;
+	z-index: 1;
+
+	i {
+		&:first-child {
+			height: 1px;
+			width: 100%;
+			background: #42494E;
+			display: block;
+		}
+		&:last-child {
+			position: absolute;
+			height: 1px;
+			width: 100%;
+			background: #fff;
+			left: 0;
+			bottom: 0;
+			.transition(all);
+			.transition-duration(300ms);
+			.scale(0);
+		}
+		&:before,
+		&:after {
+			position: absolute;
+			bottom: 1px;
+			background: rgba(255, 255, 255, 0.2);
+			width: 1px;
+			height: 10px;
+		}
+		&:before {
+			left: 0;
+		}
+		&:after {
+			right: 0;
+		}
+	}
+}
+
+.ig-text {
+	width: 100%;
+	height: 50px;
+	border: 0;
+	background: transparent;
+	text-align: center;
+	color: #fff;
+	position: relative;
+	z-index: 1;
+
+
+	&:focus + label + .ig-helpers i {
+		&:last-child {
+			.scale(1);
+			&:before,
+			&:after {
+				width: 1px;
+				background: #fff;
+			}
+		}
+	}
+
+	&:valid,
+	&:focus {
+		& + .ig-label {
+			bottom: 40px;
+			font-size: 13px;
+			z-index: 1;
+			color: rgba(255, 255, 255, 0.3);
+		}
+	}
+}
+
+.ig-left {
+	.ig-label {
+		text-align: left;
+	}
+
+	.ig-text {
+		text-align: left;
+	}
+}
+
+.ig-error {
+	.ig-label {
+		color: #E23F3F;
+	}
+	.ig-helpers i {
+		&:first-child,
+		&:first-child:before,
+		&:first-child:after {
+			background: rgba(226, 63, 63, 0.43);
+		}
+		&:last-child,
+		&:last-child:before,
+		&:last-child:after {
+			background: #E23F3F !important;
+		}
+	}
+	&:after {
+		content: "\f05a";
+		font-family: FontAwesome;
+		position: absolute;
+		top: 17px;
+		right: 9px;
+		font-size: 20px;
+		color: #D33D3E;
+	}
+}
+
+
+/*--------------------------
+    Form action buttons
+----------------------------*/
+.form-footer {
+	margin: 15px -6px 0;
+	text-align: center;
+}
+
+.ff-btn {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	line-height: 36px;
+	color: #fff;
+	border: 1px solid #fff;
+	border-radius: 50%;
+	font-size: 15px;
+	margin: 0 6px;
+	opacity: 0.3;
+	text-align: center;
+	.transition(all);
+	.transition-duration(250ms);
+
+	&:hover,
+	&:focus {
+		color: #fff;
+		opacity: 0.6;
 	}
 }

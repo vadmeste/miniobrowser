@@ -18,18 +18,18 @@ import React from 'react'
 import classNames from 'classnames'
 import logo from '../../img/logo.svg'
 import Alert from 'react-bootstrap/lib/Alert'
-
 import * as actions from '../actions'
+import InputGroup from '../components/InputGroup'
 
 export default class Login extends React.Component {
     handleSubmit(event) {
         event.preventDefault()
         const { web, dispatch, loginRedirectPath } = this.props
         let message = ''
-        if (!this.refs.secretKey.value) {
+        if (!document.getElementById('accessKey').value) {
             message = 'Secret Key cannot be empty'
         }
-        if (!this.refs.accessKey.value) {
+        if (!document.getElementById('secretKey').value) {
             message = 'Access Key cannot be empty'
         }
         if (message) {
@@ -39,7 +39,7 @@ export default class Login extends React.Component {
             }))
             return
         }
-        web.Login({username: this.refs.accessKey.value, password: this.refs.secretKey.value})
+        web.Login({username: document.getElementById('accessKey').value, password: document.getElementById('secretKey').value})
             .then((res) => {
                 this.context.router.push(loginRedirectPath)
             })
@@ -82,26 +82,34 @@ export default class Login extends React.Component {
                 <div className="l-wrap">
                     <form onSubmit={this.handleSubmit.bind(this)}>
                         <input ref="" name="fixBrowser" autoComplete="username" type="text" style={{display: 'none'}}/>
-                        <div className='lc-item'>
-                            <input ref="accessKey" name="username" className="lci-text" type="text" spellCheck="false" required="required" autoComplete="username"/>
-                            <label className="lci-label">Access Key</label>
-                            <div className="lci-helpers">
-                                <i></i><i></i>
-                            </div>
-                        </div>
-                        <div className='lc-item'>
-                            <input ref="" type="text" autoComplete="new-password" style={{ display: 'none' }}/>
-                            <input ref="secretKey" name="password" className="lci-text" type="password" spellCheck="false" required="required" autoComplete="new-password"/>
-                            <label className="lci-label">Secret Key</label>
-                            <div className="lci-helpers">
-                                <i></i><i></i>
-                            </div>
-                        </div>
-                        <div className="lc-item">
-                            <button className="lci-login" type="submit">
-                                <i className="fa fa-sign-in"></i>
-                            </button>
-                        </div>
+
+                        <InputGroup
+                            label="Access Key"
+                            id="accessKey"
+                            name="username"
+                            type="text"
+                            spellCheck="false"
+                            required="required"
+                            autoComplete="username">
+
+                        </InputGroup>
+
+                        <input ref="" type="text" autoComplete="new-password" style={{ display: 'none' }}/>
+
+                        <InputGroup
+                            label="Secret Key"
+                            id="secretKey"
+                            name="password"
+                            type="password"
+                            spellCheck="false"
+                            required="required"
+                            autoComplete="new-password">
+
+                        </InputGroup>
+
+                        <button className="lw-btn" type="submit">
+                            <i className="fa fa-sign-in"></i>
+                        </button>
                     </form>
                 </div>
 

@@ -137,6 +137,27 @@
 	background: @yellow;
 }
 
+@-webkit-keyframes feba-btn-anim {
+	from {
+		.scale(0);
+	}
+	to {
+		.scale(1);
+	}
+}
+
+@keyframes feba-btn-anim {
+	from {
+		.scale(0);
+	}
+	to {
+		.scale(1);
+	}
+}
+
+/*--------------------------
+    Create Bucket
+----------------------------*/
 .feb-modal {
 	.modal-content {
 		background-color: @orange;
@@ -156,31 +177,55 @@
 		width: 100%;
 		height: 100%;
 	}
-
-	.modal-body {
-		padding: 35px 30px 30px;
-	}
 }
 
 /*--------------------------
-    Button Animation
+    Upload Abort
 ----------------------------*/
-@-webkit-keyframes feba-btn-anim {
-	from {
-		.scale(0);
+.abort-upload {
+	.modal-dialog {
+		margin: 0;
+		width: 100%;
+		height: 100%;
 	}
-	to {
-		.scale(1);
+
+	.modal-content {
+		width: 510px;
+		height: 105px;
+		position: fixed;
+		right: 19px;
+		bottom: 17px;
+		background-color: #F55D5D;
+		color: #fff;
+		text-align: center;
+	}
+
+	.cm-text {
+		margin-bottom: 10px;
+		font-size: 14px;
+		margin-top: 4px;
+	}
+
+	.cmf-btn {
+		border: 0;
+		background: rgba(255, 255, 255, 0.2);
+		margin: 0 5px;
+		border-radius: 2px;
+		color: #FFFFFF;
+		font-size: 13px;
+		padding: 7px 12px;
+		position: relative;
+
+		& > i {
+			font-size: 11px;
+			margin-right: 8px;
+			position: relative;
+			top: -1px;
+		}
+
+		&:hover {
+			background-color: rgba(255, 255, 255, 0.3);
+		}
 	}
 }
-
-@keyframes feba-btn-anim {
-	from {
-		.scale(0);
-	}
-	to {
-		.scale(1);
-	}
-}
-
 
