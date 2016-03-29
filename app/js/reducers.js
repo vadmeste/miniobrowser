@@ -22,7 +22,7 @@ export default (state = {buckets:[], visibleBuckets:[], objects:[], diskInfo:{},
                 alert: {show: false, type: 'danger', message: ''}, loginError : false,
                 sortNameOrder: false, sortSizeOrder: false, sortDateOrder: false,
                 latestUiVersion: currentUiVersion, sideBarActive: false,
-                loginRedirectPath: minioBrowserPrefix}, action) => {
+                loginRedirectPath: minioBrowserPrefix, settings: {accessKey:'', secretKey: '', secretKeyVisible: false}}, action) => {
   let newState = Object.assign({}, state)
   switch (action.type) {
     case actions.SET_WEB:
@@ -104,8 +104,11 @@ export default (state = {buckets:[], visibleBuckets:[], objects:[], diskInfo:{},
     case actions.SET_LOAD_PATH:
       newState.loadPath = action.loadPath
       break
-    case actions.SHOW_PREFERENCES:
-      newState.showPreferences = action.showPreferences
+    case actions.SHOW_SETTINGS:
+      newState.showSettings = action.showSettings
+      break
+    case actions.SET_SETTINGS:
+      newState.settings = Object.assign({}, newState.settings, action.settings)
       break
   }
   return newState

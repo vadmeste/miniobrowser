@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-let InputGroup = ({label, id, name, type, spellCheck, required, autoComplete, align}) => {
+import React from 'react'
+
+let InputGroup = ({label, id, name, value, onChange, type, spellCheck, required, autoComplete, align}) => {
     return <div className={"input-group " + align}>
-        <input id={id} name={name} className="ig-text" type={type} spellCheck={spellCheck} required={required} autoComplete={autoComplete}/>
+        <input id={id} name={name} value={value} onChange={onChange} className="ig-text" type={type} spellCheck={spellCheck} required={required} autoComplete={autoComplete}/>
         <label className="ig-label">{label}</label>
         <div className="ig-helpers">
             <i></i><i></i>
@@ -24,4 +26,4 @@ let InputGroup = ({label, id, name, type, spellCheck, required, autoComplete, al
     </div>
 }
 
-export default InputGroup 
+export default InputGroup

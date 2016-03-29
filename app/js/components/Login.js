@@ -81,7 +81,7 @@ export default class Login extends React.Component {
                 {alertBox}
                 <div className="l-wrap">
                     <form onSubmit={this.handleSubmit.bind(this)}>
-                        <input ref="" name="fixBrowser" autoComplete="username" type="text" style={{display: 'none'}}/>
+                        <input name="fixBrowser" autoComplete="username" type="text" style={{display: 'none'}}/>
 
                         <InputGroup
                             label="Access Key"
@@ -94,7 +94,7 @@ export default class Login extends React.Component {
 
                         </InputGroup>
 
-                        <input ref="" type="text" autoComplete="new-password" style={{ display: 'none' }}/>
+                        <input type="text" autoComplete="new-password" style={{ display: 'none' }}/>
 
                         <InputGroup
                             label="Secret Key"
