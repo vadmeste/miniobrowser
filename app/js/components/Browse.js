@@ -411,21 +411,72 @@ export default class Browse extends React.Component {
             this.props.dispatch(actions.setSidebarStatus(false))
         }
     }
-    
-    showPreferences(e) {
+
+    showSettings(e) {
         e.preventDefault()
         const { dispatch } = this.props
-        dispatch(actions.showPreferences())
+        dispatch(actions.showSettings())
     }
 
-    hidePreferences() {
+    hideSettings(e) {
+        e.preventDefault()
         const { dispatch } = this.props
-        dispatch(actions.hidePreferences())
+        dispatch(actions.setSettings({accessKey:'', secretKey:'', secretKeyVisible: false}))
+        dispatch(actions.hideSettings())
+    }
+
+    accessKeyChange(e) {
+      const { dispatch } = this.props
+      dispatch(actions.setSettings({accessKey: e.target.value}))
+    }
+
+    secretKeyChange(e) {
+      const { dispatch } = this.props
+      dispatch(actions.setSettings({secretKey: e.target.value}))
+    }
+
+    secretKeyVisible(secretKeyVisible) {
+      const { dispatch } = this.props
+      dispatch(actions.setSettings({secretKeyVisible}))
+    }
+
+    generateAuth(e) {
+      e.preventDefault()
+      const { dispatch } = this.props
+      web.GenerateAuth()
+        .then(data => {
+          dispatch(actions.setSettings({secretKeyVisible: true}))
+          dispatch(actions.setSettings({accessKey: data.accessKey, secretKey: data.secretKey}))
+        })
+    }
+
+    setAuth(e) {
+      e.preventDefault()
+      const { web, dispatch } = this.props
+      let accessKey = document.getElementById('accessKey').value
+      let secretKey = document.getElementById('secretKey').value
+      web.SetAuth({accessKey, secretKey})
+        .then(data => {
+          dispatch(actions.setSettings({accessKey:'', secretKey:'', secretKeyVisible: false}))
+          dispatch(actions.hideSettings())
+          dispatch(actions.showAlert({
+            type: 'success',
+            message: 'Changed credentials'
+          }))
+        })
+        .catch(err => {
+          dispatch(actions.setSettings({accessKey:'', secretKey:'', secretKeyVisible: false}))
+          dispatch(actions.hideSettings())
+          dispatch(actions.showAlert({
+            type: 'danger',
+            message: err.message
+          }))
+        })
     }
 
     render() {
         const { total, free } = this.props.diskInfo
-        const { showMakeBucketModal, showAbortModal, upload, alert, sortNameOrder, sortSizeOrder, sortDateOrder, showAbout, showPreferences } = this.props
+        const { showMakeBucketModal, showAbortModal, upload, alert, sortNameOrder, sortSizeOrder, sortDateOrder, showAbout, showSettings, settings } = this.props
         const { version, memory, platform, runtime } = this.props.serverInfo
         const { sidebarStatus } = this.props
 
@@ -480,7 +531,6 @@ export default class Browse extends React.Component {
         let used = total - free
         let usedPercent = (used / total) * 100+'%'
         let freePercent = free * 100 / total
-
         return (
             <div className={classNames({'file-explorer': true, 'toggled': sidebarStatus})}>
                 {abortModal}
@@ -540,7 +590,7 @@ export default class Browse extends React.Component {
                                             <a href="" onClick={this.showAbout.bind(this)}>About <i className="fa fa-info-circle"></i></a>
                                         </li>
                                         <li>
-                                            <a href="" onClick={this.showPreferences.bind(this)}>Preferences <i className="fa fa-cog"></i></a>
+                                            <a href="" onClick={this.showSettings.bind(this)}>Settings <i className="fa fa-cog"></i></a>
                                         </li>
                                         <li>
                                             <a href="" onClick={this.logout.bind(this)}>Sign Out <i className="fa fa-sign-out"></i></a>
@@ -656,34 +706,31 @@ export default class Browse extends React.Component {
                             </div>
                         </div>
                     </Modal>
-                    
-                    <Modal className="modal-dark" bsSize="sm" show={showPreferences} onHide={this.hidePreferences.bind(this)}>
+
+                    <Modal className="modal-dark" bsSize="sm" show={showSettings}>
                         <ModalHeader>
                             Change Password
                         </ModalHeader>
                         <ModalBody>
                             <div className="p-relative" style={{ paddingRight: '35px' }}>
-                                <InputGroup label="Access Key" ref="" name="accesskey" type="text" spellCheck="false" required="required" autoComplete="false" align="ig-left"></InputGroup>
-
-                                <i className="toggle-password fa fa-eye" />
+                                <InputGroup value={settings.accessKey} onChange={this.accessKeyChange.bind(this)} id="accessKey" label="Access Key" name="accesskey" type="text" spellCheck="false" required="required" autoComplete="false" align="ig-left"></InputGroup>
                             </div>
 
                             <div className="p-relative" style={{ paddingRight: '35px' }}>
-                                <InputGroup label="Secret Key" ref="" name="accesskey" type="text" spellCheck="false" required="required" autoComplete="false" align="ig-left"></InputGroup>
-
-                                <i className="toggle-password fa fa-eye" />
+                                <InputGroup value={settings.secretKey} onChange={this.secretKeyChange.bind(this)} id="secretKey" label="Secret Key" name="accesskey" type={settings.secretKeyVisible ? "text" : "password"} spellCheck="false" required="required" autoComplete="false" align="ig-left"></InputGroup>
+                                <i onClick={this.secretKeyVisible.bind(this, !settings.secretKeyVisible)} className={"toggle-password fa fa-eye " + (settings.secretKeyVisible ? "fa-inverse" : "") />
                             </div>
-                            
+
                             <div className="clearfix" />
 
                             <div className="form-footer clearfix">
-                                <a href="" className="ff-btn ff-key-gen">
+                                <a href="" className="ff-btn ff-key-gen" onClick={this.generateAuth.bind(this)}>
                                     <i className="fa fa-repeat"></i>
                                 </a>
-                                <a href="" className="ff-btn">
+                                <a href="" className="ff-btn" onClick={this.setAuth.bind(this)}>
                                     <i className="fa fa-check"></i>
                                 </a>
-                                <a href="" className="ff-btn">
+                                <a href="" className="ff-btn" onClick={this.hideSettings.bind(this)}>
                                     <i className="fa fa-times"></i>
                                 </a>
                             </div>

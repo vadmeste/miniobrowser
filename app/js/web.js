@@ -96,4 +96,14 @@ export default class Web {
   RemoveObject(args) {
     return this.makeCall('RemoveObject', args)
   }
+  GenerateAuth() {
+    return this.makeCall('GenerateAuth')
+  }
+  SetAuth(args) {
+    return this.makeCall('SetAuth', args)
+                .then(res => {
+                  localStorage.token = `${res.token}`
+                  return res
+                })
+  }
 }
