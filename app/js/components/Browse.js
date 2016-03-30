@@ -712,21 +712,24 @@ export default class Browse extends React.Component {
                             Change Password
                         </ModalHeader>
                         <ModalBody>
-                            <div className="p-relative" style={{ paddingRight: '35px' }}>
+                            <div className="p-relative" style={{ paddingRight: '35px', marginBottom: '20px' }}>
                                 <InputGroup value={settings.accessKey} onChange={this.accessKeyChange.bind(this)} id="accessKey" label="Access Key" name="accesskey" type="text" spellCheck="false" required="required" autoComplete="false" align="ig-left"></InputGroup>
                             </div>
 
-                            <div className="p-relative" style={{ paddingRight: '35px' }}>
+                            <div className="p-relative">
                                 <InputGroup value={settings.secretKey} onChange={this.secretKeyChange.bind(this)} id="secretKey" label="Secret Key" name="accesskey" type={settings.secretKeyVisible ? "text" : "password"} spellCheck="false" required="required" autoComplete="false" align="ig-left"></InputGroup>
-                                <i onClick={this.secretKeyVisible.bind(this, !settings.secretKeyVisible)} className={"toggle-password fa fa-eye " + (settings.secretKeyVisible ? "fa-inverse" : "") />
+                                <i onClick={this.secretKeyVisible.bind(this, !settings.secretKeyVisible)} className={"toggle-password fa fa-eye " + (settings.secretKeyVisible ? "toggled" : "")} />
                             </div>
 
                             <div className="clearfix" />
 
                             <div className="form-footer clearfix">
-                                <a href="" className="ff-btn ff-key-gen" onClick={this.generateAuth.bind(this)}>
-                                    <i className="fa fa-repeat"></i>
-                                </a>
+                                <OverlayTrigger placement="bottom" overlay={<Tooltip id="tt-password-generate">Generate Keys</Tooltip>}>
+                                    <a href="" className="ff-btn ff-key-gen" onClick={this.generateAuth.bind(this)}>
+                                        <i className="fa fa-repeat"></i>
+                                    </a>
+                                </OverlayTrigger>
+
                                 <a href="" className="ff-btn" onClick={this.setAuth.bind(this)}>
                                     <i className="fa fa-check"></i>
                                 </a>
