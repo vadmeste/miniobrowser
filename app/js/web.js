@@ -96,6 +96,9 @@ export default class Web {
   RemoveObject(args) {
     return this.makeCall('RemoveObject', args)
   }
+  GetAuth() {
+    return this.makeCall('GetAuth')
+  }
   GenerateAuth() {
     return this.makeCall('GenerateAuth')
   }

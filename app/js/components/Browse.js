@@ -416,6 +416,10 @@ export default class Browse extends React.Component {
         e.preventDefault()
         const { dispatch } = this.props
         dispatch(actions.showSettings())
+        web.GetAuth()
+          .then(data => {
+            dispatch(actions.setSettings({accessKey: data.accessKey, secretKey: data.secretKey}))
+          })
     }
 
     hideSettings(e) {
