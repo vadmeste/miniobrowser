@@ -15,6 +15,7 @@
  */
 
 import url from 'url'
+import Moment from 'moment'
 import web from './web'
 import * as utils from './utils'
 
@@ -257,46 +258,36 @@ export const uploadFile = (file, xhr) => {
   return (dispatch, getState) => {
     const { currentBucket, currentPath, web } = getState()
     const objectName = `${currentPath}${file.name}`
-    web.PutObjectURL({targetHost: window.location.host, targetProto: window.location.protocol, bucketName: currentBucket, objectName})
-        .then(res => {
-          let signedurl = res.url
-          let parsedUrl = url.parse(signedurl)
-          xhr.open('PUT', signedurl, true)
-          xhr.withCredentials = false
-          dispatch(setUpload({inProgress: true, loaded: 0, total: file.size, filename: file.name}))
-          xhr.upload.addEventListener('error', event => {
-            dispatch(showAlert({
-              type: 'danger',
-              message: 'Error occurred uploading \'' + file.name +'\'.'
-            }))
-            dispatch(setUpload({inProgress: false}))
-          })
-          xhr.upload.addEventListener('progress', event => {
-            if (event.lengthComputable) {
-              let loaded = event.loaded
-              let total = event.total
-              dispatch(setUpload({inProgress: true, loaded, total, filename: file.name}))
-              if (loaded === total) {
-                setShowAbortModal(false)
-                dispatch(setUpload({inProgress: false}))
-                dispatch(showAlert({
-                  type: 'success',
-                  message: 'File \'' + file.name + '\' uploaded successfully.'
-                }))
-                dispatch(selectPrefix(currentPath))
-              }
-            }
-          })
-          xhr.send(file)
-        })
-        .catch(err => {
+    const uploadUrl = `${window.location.origin}/minio/upload/${currentBucket}/${objectName}`
+    xhr.open('PUT', uploadUrl, true)
+    xhr.withCredentials = false
+    xhr.setRequestHeader("Authorization", 'Bearer ' + localStorage.token)
+    xhr.setRequestHeader('x-minio-date', Moment().utc().format('YYYYMMDDTHHmmss') + 'Z')
+    dispatch(setUpload({inProgress: true, loaded: 0, total: file.size, filename: file.name}))
+    xhr.upload.addEventListener('error', event => {
+      dispatch(showAlert({
+        type: 'danger',
+        message: 'Error occurred uploading \'' + file.name +'\'.'
+      }))
+      dispatch(setUpload({inProgress: false}))
+    })
+    xhr.upload.addEventListener('progress', event => {
+      if (event.lengthComputable) {
+        let loaded = event.loaded
+        let total = event.total
+        dispatch(setUpload({inProgress: true, loaded, total, filename: file.name}))
+        if (loaded === total) {
           setShowAbortModal(false)
-          dispatch(setUpload({inProgress: false, percent: 0}))
+          dispatch(setUpload({inProgress: false}))
           dispatch(showAlert({
-            type: 'danger',
-            message: err.message
+            type: 'success',
+            message: 'File \'' + file.name + '\' uploaded successfully.'
           }))
-        })
+          dispatch(selectPrefix(currentPath))
+        }
+      }
+    })
+    xhr.send(file)
   }
 }
 

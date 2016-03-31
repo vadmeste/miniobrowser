@@ -241,12 +241,7 @@ export default class Browse extends React.Component {
             if (prefix === currentPath) return
             browserHistory.push(utils.pathJoin(currentBucket, prefix))
         } else {
-            web.GetObjectURL({targetHost: window.location.host, targetProto: window.location.protocol, bucketName: currentBucket, objectName: prefix})
-                .then(res => window.location = res.url)
-                .catch(err => dispatch(actions.showAlert({
-                    type: 'danger',
-                    message: err.message + ', please reload.',
-                })))
+            window.location = `${window.location.origin}/minio/download/${currentBucket}/${prefix}?token=${localStorage.token}`
         }
     }
 
