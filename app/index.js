@@ -46,10 +46,10 @@ const store = applyMiddleware(thunkMiddleware)(createStore)(reducer)
 const Browse = connect(state => state)(_Browse)
 const Login = connect(state => state)(_Login)
 
-let web = new Web(`${window.location.protocol}//${window.location.host}${minioBrowserPrefix}/rpc`, store.dispatch)
+let web = new Web(`${window.location.protocol}//${window.location.host}${minioBrowserPrefix}/webrpc`, store.dispatch)
 
 if (window.location.host === 'localhost:8080') {
-  web = new Web(`http://localhost:9000${minioBrowserPrefix}/rpc`, store.dispatch)
+  web = new Web(`http://localhost:9000${minioBrowserPrefix}/webrpc`, store.dispatch)
 }
 
 window.web = web
