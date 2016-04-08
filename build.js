@@ -28,8 +28,24 @@ var releaseTag = date.format('YYYY-MM-DDTHH-mm-ss') + 'Z'
 var buildType = 'UNOFFICIAL'
 if (process.env.MINIO_UI_BUILD) buildType = process.env.MINIO_UI_BUILD
 
+rmDir = function(dirPath) {
+  try { var files = fs.readdirSync(dirPath); }
+  catch(e) { return; }
+  if (files.length > 0)
+    for (var i = 0; i < files.length; i++) {
+      var filePath = dirPath + '/' + files[i];
+      if (fs.statSync(filePath).isFile())
+        fs.unlinkSync(filePath);
+      else
+        rmDir(filePath);
+    }
+  fs.rmdirSync(dirPath);
+};
+
 async.waterfall([
     function(cb) {
+      rmDir('production');
+      rmDir('dev');
       var cmd = 'webpack -p --config webpack.production.config.js'
       if (!isProduction) {
         cmd = 'webpack';
@@ -38,8 +54,13 @@ async.waterfall([
       exec(cmd, cb)
     },
     function(stdout, stderr, cb) {
-      if (isProduction) fs.renameSync('production/index_bundle.js', 'production/index_bundle-' + releaseTag + '.js')
-      else fs.renameSync('dev/index_bundle.js', 'dev/index_bundle-' + releaseTag + '.js')
+      if (isProduction) {
+        fs.renameSync('production/index_bundle.js',
+                      'production/index_bundle-' + releaseTag + '.js')
+      } else {
+        fs.renameSync('dev/index_bundle.js',
+                      'dev/index_bundle-' + releaseTag + '.js')
+      }
       var cmd = 'git log --format="%H" -n1'
       console.log('Running', cmd)
       exec(cmd, cb)
