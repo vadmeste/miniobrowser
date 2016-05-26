@@ -162,15 +162,14 @@ BrowserUpdate = connect(state => state) (BrowserUpdate)
 export default class Browse extends React.Component {
     componentDidMount() {
         const { web, dispatch, currentBucket } = this.props
-        web.DiskInfo()
+        web.StorageInfo()
             .then(res => {
-                let diskInfo = Object.assign({}, {
-                    total: res.diskInfo.Total,
-                    free: res.diskInfo.Free,
-                    fstype: res.diskInfo.FSType,
+                let storageInfo = Object.assign({}, {
+                    total: res.storageInfo.Total,
+                    free: res.storageInfo.Free
                 })
-                diskInfo.used = diskInfo.total - diskInfo.free
-                dispatch(actions.setDiskInfo(diskInfo))
+                storageInfo.used = storageInfo.total - storageInfo.free
+                dispatch(actions.setStorageInfo(storageInfo))
                 return web.ServerInfo()
             })
             .then(res => {
@@ -178,7 +177,7 @@ export default class Browse extends React.Component {
                     version: res.MinioVersion,
                     memory: res.MinioMemory,
                     platform: res.MinioPlatform,
-                    runtime: res.MinioRuntime,
+                    runtime: res.MinioRuntime
                 })
                 dispatch(actions.setServerInfo(serverInfo))
             })
@@ -474,7 +473,7 @@ export default class Browse extends React.Component {
     }
 
     render() {
-        const { total, free } = this.props.diskInfo
+        const { total, free } = this.props.storageInfo
         const { showMakeBucketModal, showAbortModal, upload, alert, sortNameOrder, sortSizeOrder, sortDateOrder, showAbout, showSettings, settings } = this.props
         const { version, memory, platform, runtime } = this.props.serverInfo
         const { sidebarStatus } = this.props

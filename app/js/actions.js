@@ -27,7 +27,7 @@ export const ADD_BUCKET = 'ADD_BUCKET'
 export const ADD_OBJECT = 'ADD_OBJECT'
 export const SET_VISIBLE_BUCKETS = 'SET_VISIBLE_BUCKETS'
 export const SET_OBJECTS = 'SET_OBJECTS'
-export const SET_DISK_INFO = 'SET_DISK_INFO'
+export const SET_STORAGE_INFO = 'SET_STORAGE_INFO'
 export const SET_SERVER_INFO = 'SET_SERVER_INFO'
 export const SHOW_MAKEBUCKET_MODAL = 'SHOW_MAKEBUCKET_MODAL'
 export const SET_UPLOAD = 'SET_UPLOAD'
@@ -176,10 +176,10 @@ export const setCurrentPath = currentPath => {
   }
 }
 
-export const setDiskInfo = diskInfo => {
+export const setStorageInfo = storageInfo => {
   return {
-    type: SET_DISK_INFO,
-    diskInfo
+    type: SET_STORAGE_INFO,
+    storageInfo
   }
 }
 
