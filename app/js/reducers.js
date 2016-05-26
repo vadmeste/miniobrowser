@@ -17,7 +17,7 @@
 import * as actions from './actions'
 import { minioBrowserPrefix } from './constants'
 
-export default (state = {buckets:[], visibleBuckets:[], objects:[], diskInfo:{}, serverInfo: {},
+export default (state = {buckets:[], visibleBuckets:[], objects:[], storageInfo:{}, serverInfo: {},
                 currentBucket: '', currentPath: '', showMakeBucketModal: false, upload: {},
                 alert: {show: false, type: 'danger', message: ''}, loginError : false,
                 sortNameOrder: false, sortSizeOrder: false, sortDateOrder: false,
@@ -47,8 +47,8 @@ export default (state = {buckets:[], visibleBuckets:[], objects:[], diskInfo:{},
     case actions.SET_CURRENT_PATH:
       newState.currentPath = action.currentPath
       break
-    case actions.SET_DISK_INFO:
-      newState.diskInfo = action.diskInfo
+    case actions.SET_STORAGE_INFO:
+      newState.storageInfo = action.storageInfo
       break
     case actions.SET_SERVER_INFO:
       newState.serverInfo = action.serverInfo
