@@ -162,7 +162,17 @@ BrowserUpdate = connect(state => state) (BrowserUpdate)
 export default class Browse extends React.Component {
     componentDidMount() {
         const { web, dispatch, currentBucket } = this.props
-        web.ServerInfo()
+        web.DiskInfo()
+            .then(res => {
+                let diskInfo = Object.assign({}, {
+                    total: res.diskInfo.Total,
+                    free: res.diskInfo.Free,
+                    fstype: res.diskInfo.FSType,
+                })
+                diskInfo.used = diskInfo.total - diskInfo.free
+                dispatch(actions.setDiskInfo(diskInfo))
+                return web.ServerInfo()
+            })
             .then(res => {
                 let serverInfo = Object.assign({}, {
                     version: res.MinioVersion,
@@ -186,14 +196,6 @@ export default class Browse extends React.Component {
             let buckets
             if (!res.buckets) buckets = []
             else buckets = res.buckets.map(bucket => bucket.name)
-            let bucket = res.buckets[0]
-            let diskInfo = Object.assign({}, {
-                  free: bucket.free,
-                  total: bucket.total,
-            })
-            diskInfo.used = diskInfo.total - diskInfo.free
-            dispatch(actions.setDiskInfo(diskInfo))
-
             if (buckets.length) {
               dispatch(actions.setBuckets(buckets))
               dispatch(actions.setVisibleBuckets(buckets))

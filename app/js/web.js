@@ -75,6 +75,9 @@ export default class Web {
   ServerInfo() {
     return this.makeCall('ServerInfo')
   }
+  DiskInfo() {
+    return this.makeCall('DiskInfo')
+  }
   ListBuckets() {
     return this.makeCall('ListBuckets')
   }
