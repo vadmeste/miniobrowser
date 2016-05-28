@@ -162,13 +162,22 @@ BrowserUpdate = connect(state => state) (BrowserUpdate)
 export default class Browse extends React.Component {
     componentDidMount() {
         const { web, dispatch, currentBucket } = this.props
-        web.ServerInfo()
+        web.StorageInfo()
+            .then(res => {
+                let storageInfo = Object.assign({}, {
+                    total: res.storageInfo.Total,
+                    free: res.storageInfo.Free
+                })
+                storageInfo.used = storageInfo.total - storageInfo.free
+                dispatch(actions.setStorageInfo(storageInfo))
+                return web.ServerInfo()
+            })
             .then(res => {
                 let serverInfo = Object.assign({}, {
                     version: res.MinioVersion,
                     memory: res.MinioMemory,
                     platform: res.MinioPlatform,
-                    runtime: res.MinioRuntime,
+                    runtime: res.MinioRuntime
                 })
                 dispatch(actions.setServerInfo(serverInfo))
             })
@@ -186,14 +195,6 @@ export default class Browse extends React.Component {
             let buckets
             if (!res.buckets) buckets = []
             else buckets = res.buckets.map(bucket => bucket.name)
-            let bucket = res.buckets[0]
-            let diskInfo = Object.assign({}, {
-                  free: bucket.free,
-                  total: bucket.total,
-            })
-            diskInfo.used = diskInfo.total - diskInfo.free
-            dispatch(actions.setDiskInfo(diskInfo))
-
             if (buckets.length) {
               dispatch(actions.setBuckets(buckets))
               dispatch(actions.setVisibleBuckets(buckets))
@@ -472,7 +473,7 @@ export default class Browse extends React.Component {
     }
 
     render() {
-        const { total, free } = this.props.diskInfo
+        const { total, free } = this.props.storageInfo
         const { showMakeBucketModal, showAbortModal, upload, alert, sortNameOrder, sortSizeOrder, sortDateOrder, showAbout, showSettings, settings } = this.props
         const { version, memory, platform, runtime } = this.props.serverInfo
         const { sidebarStatus } = this.props
