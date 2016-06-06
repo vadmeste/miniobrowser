@@ -665,7 +665,7 @@ export default class Browse extends React.Component {
                         <ModalBody>
                             <form onSubmit={this.makeBucket.bind(this)}>
                                 <div className="create-bucket">
-                                    <input type="text" autofocus ref="makeBucketRef" placeholder="Bucket Name"/>
+                                    <input type="text" ref="makeBucketRef" placeholder="Bucket Name" autoFocus/>
                                     <i></i>
                                 </div>
                             </form>
