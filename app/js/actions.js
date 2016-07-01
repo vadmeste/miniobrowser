@@ -262,7 +262,7 @@ export const uploadFile = (file, xhr) => {
     xhr.open('PUT', uploadUrl, true)
     xhr.withCredentials = false
     xhr.setRequestHeader("Authorization", 'Bearer ' + localStorage.token)
-    xhr.setRequestHeader('x-minio-date', Moment().utc().format('YYYYMMDDTHHmmss') + 'Z')
+    xhr.setRequestHeader('Date', Moment().utc().format('YYYYMMDDTHHmmss') + 'Z')
     dispatch(setUpload({inProgress: true, loaded: 0, total: file.size, filename: file.name}))
     xhr.upload.addEventListener('error', event => {
       dispatch(showAlert({

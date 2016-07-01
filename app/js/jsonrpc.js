@@ -73,7 +73,7 @@ export default class JSONrpc {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-minio-date': Moment().utc().format('YYYYMMDDTHHmmss') + 'Z'
+        'Date': Moment().utc().format('YYYYMMDDTHHmmss') + 'Z'
       }
     }
 
