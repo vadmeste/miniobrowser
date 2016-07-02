@@ -73,7 +73,7 @@ export default class JSONrpc {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Date': Moment().utc().format('YYYYMMDDTHHmmss') + 'Z'
+        'x-amz-date': Moment().utc().format('YYYYMMDDTHHmmss') + 'Z'
       }
     }
 
