@@ -131,13 +131,44 @@
 			}
 		}
 
-		&.active > a {
+		&.active {
 			background-color: rgba(0, 0, 0, 0.2);
-			color: #fff;
+
+			& > a {
+				color: #fff;
+			}
 		}
 
-		&:not(.active) > a:hover {
+		&:not(.active):hover {
 			background-color: rgba(0, 0, 0, 0.1);
+
+			& > a {
+				color: #fff;
+			}
+		}
+
+		& > i {
+			position: absolute;
+			top: -2px;
+			right: 10px;
+			font-size: 20px;
+			transform: rotate(90deg);
+			color: rgba(255, 255, 255, 0.5);
+			padding: 15px;
+			cursor: pointer;
+			.opacity(0);
+			.transition(opacity);
+			.transition-duration(300ms);
+
+			&:hover {
+				color: rgba(255, 255, 255, 0.8);
+			}
+		}
+
+		&:hover {
+			& > i {
+				.opacity(1);
+			}
 		}
 	}
 
@@ -188,4 +219,62 @@
 	}
 }
 
+
+/*--------------------------
+    Policy
+----------------------------*/
+.pm-body {
+	padding-bottom: 30px;
+}
+
+.pmb-header {
+	margin-bottom: 35px;
+}
+
+.pmb-list {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: center;
+	padding: 10px 35px;
+
+	&:nth-child(even) {
+		background-color: #F7F7F7;
+	}
+}
+
+header.pmb-list {
+	margin: 20px 0;
+}
+
+.pmbl-item {
+	display: block;
+	font-size: 13px;
+
+	&:nth-child(1) {
+		flex: 2;
+	}
+
+	&:nth-child(2) {
+		margin: 0 25px;
+		width: 150px;
+	}
+
+	&:nth-child(3) {
+		width: 70px;
+	}
+}
+
+div.pmb-list {
+	select {
+		padding: 0;
+		border: 0;
+	}
+
+	.pml-item {
+		&:not(:last-child) {
+			padding: 0 5px;
+		}
+	}
+}
 

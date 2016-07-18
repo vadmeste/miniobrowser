@@ -39,7 +39,7 @@ import * as utils from '../utils'
 import * as mime from '../mime'
 import { minioBrowserPrefix } from '../constants'
 
-let SideBar = ({ visibleBuckets, loadBucket, currentBucket, selectBucket, searchBuckets, landingPage, sidebarStatus, clickOutside }) => {
+let SideBar = ({ visibleBuckets, loadBucket, currentBucket, selectBucket, searchBuckets, landingPage, sidebarStatus, clickOutside, showPolicy }) => {
     let ClickOutHandler = require('react-onclickout');
 
     const list = visibleBuckets.map((bucket, i) => {
@@ -48,6 +48,8 @@ let SideBar = ({ visibleBuckets, loadBucket, currentBucket, selectBucket, search
                 {bucket}
                 {bucket === loadBucket ? <span className="loading l-bucket"><i /></span> : ''}
             </a>
+
+            <i className="fa fa-ellipsis-h" onClick={showPolicy}></i>
         </li>
     })
 
@@ -283,6 +285,17 @@ export default class Browse extends React.Component {
         dispatch(actions.hideAbout())
     }
 
+    showBucketPolicy() {
+        const { dispatch } = this.props
+        dispatch(actions.showBucketPolicy())
+    }
+
+    hideBucketPolicy(e) {
+        e.preventDefault()
+        const { dispatch } = this.props
+        dispatch(actions.hideBucketPolicy())
+    }
+
     uploadFile(e) {
         e.preventDefault()
         const { dispatch, upload } = this.props
@@ -388,6 +401,10 @@ export default class Browse extends React.Component {
         }
     }
 
+    multiSelect(e) {
+        alert('yes')
+    }
+
     toggleSidebar(status){
         this.props.dispatch(actions.setSidebarStatus(status))
     }
@@ -474,7 +491,7 @@ export default class Browse extends React.Component {
 
     render() {
         const { total, free } = this.props.storageInfo
-        const { showMakeBucketModal, showAbortModal, upload, alert, sortNameOrder, sortSizeOrder, sortDateOrder, showAbout, showSettings, settings } = this.props
+        const { showMakeBucketModal, showAbortModal, upload, alert, sortNameOrder, sortSizeOrder, sortDateOrder, showAbout, showBucketPolicy, showSettings, settings } = this.props
         const { version, memory, platform, runtime } = this.props.serverInfo
         const { sidebarStatus } = this.props
 
@@ -535,7 +552,8 @@ export default class Browse extends React.Component {
                 <SideBar landingPage={this.landingPage.bind(this)}
                             searchBuckets={this.searchBuckets.bind(this)}
                             selectBucket={this.selectBucket.bind(this)}
-                            clickOutside={this.hideSidebar.bind(this)}/>
+                            clickOutside={this.hideSidebar.bind(this)}
+                            showPolicy={this.showBucketPolicy.bind(this)}/>
 
                 <div className="fe-body">
                     {alertBox}
@@ -565,7 +583,6 @@ export default class Browse extends React.Component {
                                 <li className="pull-right">Free: {humanize.filesize(total - used)}</li>
                             </ul>
                         </div>
-
 
                         <ul className="feh-actions">
                             <BrowserUpdate />
@@ -698,21 +715,108 @@ export default class Browse extends React.Component {
                                         <small>{runtime}</small>
                                     </li>
                                 </ul>
-                                <span className="amii-close" onClick={this.hideAbout.bind(this)}>
-                                    <i className="fa fa-check"></i>
-                                </span>
+
+                                <div className="modal-footer p-0 p-t-10 text-left">
+                                    <a href="" className="mf-btn" onClick={this.hideAbout.bind(this)}>
+                                        <i className="fa fa-check"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </Modal>
 
-                    <Modal className="modal-dark" bsSize="sm" show={showSettings}>
+                    <Modal className="policy-modal" show={showBucketPolicy} onHide={this.hideBucketPolicy.bind(this)}>
+                        <ModalHeader>
+                            Bucket Policy
+                            <small>Cras justo odio, dapibus ac facilisis in, egestas eget quam.</small>
+
+                            <a href="" className="mh-close" onClick={this.hideBucketPolicy.bind(this)}>
+                                <i className="fa fa-times"></i>
+                            </a>
+                        </ModalHeader>
+
+                        <div className="pm-body">
+                            <header className="pmb-list">
+                                <div className="pmbl-item">
+                                    <input type="text" className="form-control" value="bucket"/>
+                                </div>
+                                <div className="pmbl-item">
+                                    <select className="form-control">
+                                        <option>Read Only</option>
+                                        <option>Write Only</option>
+                                        <option>Read and Write</option>
+                                    </select>
+                                </div>
+                                <div className="pmbl-item">
+                                    <a href="" className="btn btn-sm btn-block btn-primary">Add</a>
+                                </div>
+                            </header>
+
+                            <div className="pmb-list">
+                                <div className="pmbl-item">bucket/photos</div>
+                                <div className="pmbl-item">
+                                    <select className="form-control">
+                                        <option>Read Only</option>
+                                        <option>Write Only</option>
+                                        <option>Read and Write</option>
+                                    </select>
+                                </div>
+                                <div className="pmbl-item">
+                                    <a href="" className="btn btn-sm btn-block btn-danger">Remove</a>
+                                </div>
+                            </div>
+
+                            <div className="pmb-list">
+                                <div className="pmbl-item">bucket/photos</div>
+                                <div className="pmbl-item">
+                                    <select className="form-control">
+                                        <option>Read Only</option>
+                                        <option>Write Only</option>
+                                        <option>Read and Write</option>
+                                    </select>
+                                </div>
+                                <div className="pmbl-item">
+                                    <a href="" className="btn btn-sm btn-block btn-danger">Remove</a>
+                                </div>
+                            </div>
+
+                            <div className="pmb-list">
+                                <div className="pmbl-item">bucket/photos</div>
+                                <div className="pmbl-item">
+                                    <select className="form-control">
+                                        <option>Read Only</option>
+                                        <option>Write Only</option>
+                                        <option>Read and Write</option>
+                                    </select>
+                                </div>
+                                <div className="pmbl-item">
+                                    <a href="" className="btn btn-sm btn-block btn-danger">Remove</a>
+                                </div>
+                            </div>
+
+                            <div className="pmb-list">
+                                <div className="pmbl-item">bucket/photos</div>
+                                <div className="pmbl-item">
+                                    <select className="form-control">
+                                        <option>Read Only</option>
+                                        <option>Write Only</option>
+                                        <option>Read and Write</option>
+                                    </select>
+                                </div>
+                                <div className="pmbl-item">
+                                    <a href="" className="btn btn-sm btn-block btn-danger">Remove</a>
+                                </div>
+                            </div>
+                        </div>
+                    </Modal>
+
+                    <Modal bsSize="sm" show={showSettings}>
                         <ModalHeader>
                             Change Password
                         </ModalHeader>
-                        <ModalBody>
-                            <div className="p-relative" style={{ paddingRight: '35px', marginBottom: '20px' }}>
-                                <InputGroup value={settings.accessKey} onChange={this.accessKeyChange.bind(this)} id="accessKey" label="Access Key" name="accesskey" type="text" spellCheck="false" required="required" autoComplete="false" align="ig-left"></InputGroup>
-                            </div>
+                        <ModalBody className="m-t-20">
+
+                            <InputGroup value={settings.accessKey} onChange={this.accessKeyChange.bind(this)} id="accessKey" label="Access Key" name="accesskey" type="text" spellCheck="false" required="required" autoComplete="false" align="ig-left"></InputGroup>
 
                             <div className="p-relative">
                                 <InputGroup value={settings.secretKey} onChange={this.secretKeyChange.bind(this)} id="secretKey" label="Secret Key" name="accesskey" type={settings.secretKeyVisible ? "text" : "password"} spellCheck="false" required="required" autoComplete="false" align="ig-left"></InputGroup>
@@ -720,22 +824,22 @@ export default class Browse extends React.Component {
                             </div>
 
                             <div className="clearfix" />
-
-                            <div className="form-footer clearfix">
-                                <OverlayTrigger placement="bottom" overlay={<Tooltip id="tt-password-generate">Generate Keys</Tooltip>}>
-                                    <a href="" className="ff-btn ff-key-gen" onClick={this.generateAuth.bind(this)}>
-                                        <i className="fa fa-repeat"></i>
-                                    </a>
-                                </OverlayTrigger>
-
-                                <a href="" className="ff-btn" onClick={this.setAuth.bind(this)}>
-                                    <i className="fa fa-check"></i>
-                                </a>
-                                <a href="" className="ff-btn" onClick={this.hideSettings.bind(this)}>
-                                    <i className="fa fa-times"></i>
-                                </a>
-                            </div>
                         </ModalBody>
+
+                        <div className="modal-footer clearfix p-t-0">
+                            <OverlayTrigger placement="bottom" overlay={<Tooltip id="tt-password-generate">Generate Keys</Tooltip>}>
+                                <a href="" className="mf-btn mf-highlight" onClick={this.generateAuth.bind(this)}>
+                                    <i className="fa fa-repeat"></i>
+                                </a>
+                            </OverlayTrigger>
+
+                            <a href="" className="mf-btn" onClick={this.setAuth.bind(this)}>
+                                <i className="fa fa-check"></i>
+                            </a>
+                            <a href="" className="mf-btn" onClick={this.hideSettings.bind(this)}>
+                                <i className="fa fa-times"></i>
+                            </a>
+                        </div>
                     </Modal>
                 </div>
             </div>

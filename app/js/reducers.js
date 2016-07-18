@@ -110,6 +110,9 @@ export default (state = {buckets:[], visibleBuckets:[], objects:[], storageInfo:
     case actions.SET_SETTINGS:
       newState.settings = Object.assign({}, newState.settings, action.settings)
       break
+    case actions.SHOW_BUCKET_POLICY:
+      newState.showBucketPolicy = action.showBucketPolicy
+      break
   }
   return newState
 }

@@ -45,6 +45,7 @@ export const SET_LOAD_BUCKET = 'SET_LOAD_BUCKET'
 export const SET_LOAD_PATH = 'SET_LOAD_PATH'
 export const SHOW_SETTINGS = 'SHOW_SETTINGS'
 export const SET_SETTINGS = 'SET_SETTINGS'
+export const SHOW_BUCKET_POLICY = 'SHOW_BUCKET_POLICY'
 
 export const setLoginRedirectPath = (path) => {
   return {
@@ -351,5 +352,19 @@ export const setSettings = (settings) => {
   return {
     type: SET_SETTINGS,
     settings
+  }
+}
+
+export const showBucketPolicy = () => {
+  return {
+    type: SHOW_BUCKET_POLICY,
+    showBucketPolicy: true
+  }
+}
+
+export const hideBucketPolicy = () => {
+  return {
+    type: SHOW_BUCKET_POLICY,
+    showBucketPolicy: false
   }
 }

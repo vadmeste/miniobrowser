@@ -262,31 +262,6 @@
     }
 }
 
-.amii-close {
-    width: 40px;
-    height: 40px;
-    display: inline-block;
-    border: 1px solid #FFFFFF;
-    border-radius: 50%;
-    line-height: 37px;
-    font-size: 17px;
-    color: #FFFFFF;
-    margin-top: 10px;
-    opacity: 0.4;
-    .transition(opacity);
-    .transition-duration(300ms);
-    text-align: center;
-    cursor: pointer;
-
-    &, &:active {
-
-    }
-
-    &:hover {
-        opacity: 0.8;
-        color: #fff;
-    }
-}
 
 /*--------------------------
     Mobile Header
@@ -421,27 +396,20 @@
 
 .toggle-password {
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     right: 0;
     width: 30px;
     height: 25px;
-    border: 1px solid #42494E;
-    border-radius: 0px;
+    border: 1px solid #eee;
+    border-radius: 0;
     line-height: 25px;
     text-align: center;
     font-size: 12px;
     cursor: pointer;
     z-index: 10;
-
-    &:hover {
-        background: rgba(255,255,255,0.02);
-    }
-
-    &.active {
-        background: #42494E;
-    }
+    background-color: #fff;
 
     &.toggled {
-        background: #42494E;
+        background: #eee;
     }
 }
