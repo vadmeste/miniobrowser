@@ -16,9 +16,9 @@
 
 import React from 'react'
 
-let InputGroup = ({label, id, name, value, onChange, type, spellCheck, required, autoComplete, align, className}) => {
-    return <div className={"input-group " + align + ' ' + className}>
-        <input id={id} name={name} value={value} onChange={onChange} className="ig-text" type={type} spellCheck={spellCheck} required={required} autoComplete={autoComplete}/>
+let InputGroup = ({label, id, name, value, onChange, type, spellCheck, required, readonly, autoComplete, align, className}) => {
+    return <div className={"input-group" + align + ' ' + className}>
+        <input id={id} name={name} value={value} onChange={onChange} className="ig-text" type={type} spellCheck={spellCheck} required={required} autoComplete={autoComplete} disabled={readonly} />
         <i className="ig-helpers"></i>
         <label className="ig-label">{label}</label>
     </div>
