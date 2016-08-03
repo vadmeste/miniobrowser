@@ -19,12 +19,6 @@ $ go get github.com/jteeuwen/go-bindata/...
 $ go get github.com/elazarl/go-bindata-assetfs/...
 ```
 
-## For development environment with live reload.
-
-```
-$ npm run dev
-```
-
 ## Generating Assets.
 
 ### Development version
@@ -38,3 +32,12 @@ $ npm run build
 ```sh
 $ npm run release
 ```
+
+## Run Minio File Browser with live reload.
+
+```sh
+$ npm run dev
+```
+
+Open `http://localhost:8080/minio` in your browser to play with the application
+
