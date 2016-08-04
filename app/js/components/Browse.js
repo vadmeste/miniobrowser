@@ -845,12 +845,13 @@ export default class Browse extends React.Component {
 
                         <div className="modal-footer clearfix p-t-0">
                             <OverlayTrigger placement="bottom" overlay={<Tooltip id="tt-password-generate">Generate Keys</Tooltip>}>
-                                <a href="" className="mf-btn mf-highlight" onClick={this.generateAuth.bind(this)}>
+                                <a href="" className={"mf-btn mf-highlight "  + (settings.keysReadOnly? "hidden":"")} onClick={this.generateAuth.bind(this)}>
                                     <i className="fa fa-repeat"></i>
                                 </a>
+
                             </OverlayTrigger>
 
-                            <a href="" className="mf-btn" onClick={this.setAuth.bind(this)}>
+                            <a href="" className={"mf-btn " + (settings.keysReadOnly? "hidden":"")} onClick={this.setAuth.bind(this)}>
                                 <i className="fa fa-check"></i>
                             </a>
                             <a href="" className="mf-btn" onClick={this.hideSettings.bind(this)}>
