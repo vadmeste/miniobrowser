@@ -180,7 +180,8 @@ export default class Browse extends React.Component {
                     version: res.MinioVersion,
                     memory: res.MinioMemory,
                     platform: res.MinioPlatform,
-                    runtime: res.MinioRuntime
+                    runtime: res.MinioRuntime,
+                    envVars: res.MinioEnvVars
                 })
                 dispatch(actions.setServerInfo(serverInfo))
             })
@@ -428,10 +429,24 @@ export default class Browse extends React.Component {
         e.preventDefault()
         const { dispatch } = this.props
         dispatch(actions.showSettings())
-        web.GetAuth()
-          .then(data => {
-            dispatch(actions.setSettings({accessKey: data.accessKey, secretKey: data.secretKey}))
-          })
+        let accessKeyEnv = ''
+        let secretKeyEnv = ''
+        this.props.serverInfo.envVars.forEach(envVar => {
+            let keyVal = envVar.split('=')
+            if (keyVal[0] == 'MINIO_ACCESS_KEY'){
+                accessKeyEnv = keyVal[1]
+            } else if (keyVal[0] == 'MINIO_SECRET_KEY') {
+                secretKeyEnv = keyVal[1]
+            }
+        })
+        if (accessKeyEnv != '' || secretKeyEnv != '') {
+            dispatch(actions.setSettings({accessKey: accessKeyEnv, secretKey: secretKeyEnv, keysReadOnly: true}))
+        } else {
+            web.GetAuth()
+                .then(data => {
+                    dispatch(actions.setSettings({accessKey: data.accessKey, secretKey: data.secretKey}))
+                })
+        }
     }
 
     hideSettings(e) {
@@ -493,7 +508,7 @@ export default class Browse extends React.Component {
     render() {
         const { total, free } = this.props.storageInfo
         const { showMakeBucketModal, showAbortModal, upload, alert, sortNameOrder, sortSizeOrder, sortDateOrder, showAbout, showBucketPolicy, showSettings, settings } = this.props
-        const { version, memory, platform, runtime } = this.props.serverInfo
+        const { version, memory, platform, runtime, envVars } = this.props.serverInfo
         const { sidebarStatus } = this.props
 
         let progressBar = ''
@@ -818,10 +833,10 @@ export default class Browse extends React.Component {
                         </ModalHeader>
                         <ModalBody className="m-t-20">
 
-                            <InputGroup value={settings.accessKey} onChange={this.accessKeyChange.bind(this)} id="accessKey" label="Access Key" name="accesskey" type="text" spellCheck="false" required="required" autoComplete="false" align="ig-left"></InputGroup>
+                            <InputGroup value={settings.accessKey} onChange={this.accessKeyChange.bind(this)} id="accessKey" label="Access Key" name="accesskey" type="text" spellCheck="false" required="required" autoComplete="false" align="ig-left" readonly={settings.keysReadOnly} ></InputGroup>
 
                             <div className="p-relative">
-                                <InputGroup value={settings.secretKey} onChange={this.secretKeyChange.bind(this)} id="secretKey" label="Secret Key" name="accesskey" type={settings.secretKeyVisible ? "text" : "password"} spellCheck="false" required="required" autoComplete="false" align="ig-left"></InputGroup>
+                                <InputGroup value={settings.secretKey} onChange={this.secretKeyChange.bind(this)} id="secretKey" label="Secret Key" name="accesskey" type={settings.secretKeyVisible ? "text" : "password"} spellCheck="false" required="required" autoComplete="false" align="ig-left" readonly={settings.keysReadOnly}></InputGroup>
                                 <i onClick={this.secretKeyVisible.bind(this, !settings.secretKeyVisible)} className={"toggle-password fa fa-eye " + (settings.secretKeyVisible ? "toggled" : "")} />
                             </div>
 
