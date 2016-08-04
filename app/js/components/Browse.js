@@ -31,6 +31,7 @@ import Scrollbars from 'react-custom-scrollbars/lib/Scrollbars'
 import Dropdown from 'react-bootstrap/lib/Dropdown'
 import MenuItem from 'react-bootstrap/lib/MenuItem'
 import InputGroup from '../components/InputGroup'
+import Dropzone from '../components/Dropzone'
 
 import logo from '../../img/logo.svg'
 
@@ -556,6 +557,7 @@ export default class Browse extends React.Component {
                             showPolicy={this.showBucketPolicy.bind(this)}/>
 
                 <div className="fe-body">
+                    <Dropzone>
                     {alertBox}
 
                     <header className="mobile-header hidden-lg hidden-md">
@@ -841,6 +843,7 @@ export default class Browse extends React.Component {
                             </a>
                         </div>
                     </Modal>
+                    </Dropzone>
                 </div>
             </div>
         )

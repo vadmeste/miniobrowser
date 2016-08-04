@@ -257,14 +257,16 @@ export const setLoginError = () => {
 
 export const uploadFile = (file, xhr) => {
   return (dispatch, getState) => {
-    const { currentBucket, currentPath, web } = getState()
+    const { currentBucket, currentPath } = getState()
     const objectName = `${currentPath}${file.name}`
     const uploadUrl = `${window.location.origin}/minio/upload/${currentBucket}/${objectName}`
+
     xhr.open('PUT', uploadUrl, true)
     xhr.withCredentials = false
     xhr.setRequestHeader("Authorization", 'Bearer ' + localStorage.token)
     xhr.setRequestHeader('x-amz-date', Moment().utc().format('YYYYMMDDTHHmmss') + 'Z')
     dispatch(setUpload({inProgress: true, loaded: 0, total: file.size, filename: file.name}))
+
     xhr.upload.addEventListener('error', event => {
       dispatch(showAlert({
         type: 'danger',
