@@ -89,12 +89,17 @@ select.form-control {
     }
 
     &:valid,
+    &:disabled,
     &:focus {
         & ~ .ig-label {
             bottom: 40px;
             font-size: 13px;
             z-index: 1;
         }
+    }
+
+    &:disabled {
+        .opacity(0.5);
     }
 }
 
