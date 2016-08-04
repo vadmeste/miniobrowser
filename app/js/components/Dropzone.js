@@ -23,6 +23,9 @@ import * as actions from '../actions'
 export default class Dropzone extends React.Component {
 
     onDrop(files) {
+        // FIXME: Currently you can upload multiple files, but only one abort
+        // modal will be shown, and progress updates will only occur for one
+        // file at a time. See #171.
         files.forEach(file => {
             let req = new XMLHttpRequest()
 
@@ -41,7 +44,6 @@ export default class Dropzone extends React.Component {
             borderColor: '#fff'
         }
         const activeStyle = {
-            backgroundColor: '#eee',
             borderColor: '#777'
         }
         const rejectStyle = {
