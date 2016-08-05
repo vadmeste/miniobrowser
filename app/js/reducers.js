@@ -18,7 +18,7 @@ import * as actions from './actions'
 import { minioBrowserPrefix } from './constants'
 
 export default (state = {buckets:[], visibleBuckets:[], objects:[], storageInfo:{}, serverInfo: {},
-                currentBucket: '', currentPath: '', showMakeBucketModal: false, upload: {},
+                currentBucket: '', currentPath: '', showMakeBucketModal: false, uploads: {},
                 alert: {show: false, type: 'danger', message: ''}, loginError : false,
                 sortNameOrder: false, sortSizeOrder: false, sortDateOrder: false,
                 latestUiVersion: currentUiVersion, sideBarActive: false,
@@ -61,8 +61,19 @@ export default (state = {buckets:[], visibleBuckets:[], objects:[], storageInfo:
       if (idx > -1) newState.objects.splice(idx, 1)
       newState.objects = [action.object, ...newState.objects]
       break
-    case actions.SET_UPLOAD:
-      newState.upload = action.upload
+    case actions.UPLOAD_PROGRESS:
+      newState.uploads[action.slug].loaded = action.loaded
+      break
+    case actions.ADD_UPLOAD:
+      newState.uploads[action.slug] = {
+        loaded: 0,
+        size: action.size,
+        xhr: action.xhr,
+        name: action.name
+      }
+      break
+    case actions.STOP_UPLOAD:
+      delete newState.uploads[action.slug]
       break
     case actions.SET_ALERT:
       if (newState.alert.alertTimeout) clearTimeout(newState.alert.alertTimeout)

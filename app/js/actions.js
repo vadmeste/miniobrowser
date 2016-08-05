@@ -30,7 +30,9 @@ export const SET_OBJECTS = 'SET_OBJECTS'
 export const SET_STORAGE_INFO = 'SET_STORAGE_INFO'
 export const SET_SERVER_INFO = 'SET_SERVER_INFO'
 export const SHOW_MAKEBUCKET_MODAL = 'SHOW_MAKEBUCKET_MODAL'
-export const SET_UPLOAD = 'SET_UPLOAD'
+export const ADD_UPLOAD = 'ADD_UPLOAD'
+export const STOP_UPLOAD = 'STOP_UPLOAD'
+export const UPLOAD_PROGRESS = 'UPLOAD_PROGRESS'
 export const SET_ALERT = 'SET_ALERT'
 export const SET_LOGIN_ERROR = 'SET_LOGIN_ERROR'
 export const SET_SHOW_ABORT_MODAL = 'SET_SHOW_ABORT_MODAL'
@@ -234,10 +236,28 @@ export const selectPrefix = prefix => {
   }
 }
 
-export const setUpload = (upload = {inProgress: false, percent: 0}) => {
+export const addUpload = options => {
   return {
-    type: SET_UPLOAD,
-    upload
+    type: ADD_UPLOAD,
+    slug: options.slug,
+    size: options.size,
+    xhr: options.xhr,
+    name: options.name
+  }
+}
+
+export const stopUpload = options => {
+  return {
+    type: STOP_UPLOAD,
+    slug: options.slug
+  }
+}
+
+export const uploadProgress = options => {
+  return {
+    type: UPLOAD_PROGRESS,
+    slug: options.slug,
+    loaded: options.loaded
   }
 }
 
@@ -260,33 +280,39 @@ export const uploadFile = (file, xhr) => {
     const { currentBucket, currentPath } = getState()
     const objectName = `${currentPath}${file.name}`
     const uploadUrl = `${window.location.origin}/minio/upload/${currentBucket}/${objectName}`
+    // The slug is a unique identifer for the file upload.
+    const slug = `${currentBucket}-${currentPath}-${file.name}`
 
     xhr.open('PUT', uploadUrl, true)
     xhr.withCredentials = false
     xhr.setRequestHeader("Authorization", 'Bearer ' + localStorage.token)
     xhr.setRequestHeader('x-amz-date', Moment().utc().format('YYYYMMDDTHHmmss') + 'Z')
-    dispatch(setUpload({inProgress: true, loaded: 0, total: file.size, filename: file.name}))
+    dispatch(addUpload({slug, xhr, size: file.size, name: file.name}))
 
     xhr.upload.addEventListener('error', event => {
       dispatch(showAlert({
         type: 'danger',
         message: 'Error occurred uploading \'' + file.name +'\'.'
       }))
-      dispatch(setUpload({inProgress: false}))
+      dispatch(stopUpload({slug}))
     })
+
     xhr.upload.addEventListener('progress', event => {
       if (event.lengthComputable) {
         let loaded = event.loaded
         let total = event.total
-        dispatch(setUpload({inProgress: true, loaded, total, filename: file.name}))
+
         if (loaded === total) {
           setShowAbortModal(false)
-          dispatch(setUpload({inProgress: false}))
+          dispatch(stopUpload({slug}))
           dispatch(showAlert({
             type: 'success',
             message: 'File \'' + file.name + '\' uploaded successfully.'
           }))
           dispatch(selectPrefix(currentPath))
+        } else {
+          // Update the counter.
+          dispatch(uploadProgress({slug, loaded}))
         }
       }
     })

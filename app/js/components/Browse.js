@@ -300,14 +300,8 @@ export default class Browse extends React.Component {
 
     uploadFile(e) {
         e.preventDefault()
-        const { dispatch, upload } = this.props
-        if (upload.inProgress) {
-            dispatch(actions.showAlert({
-                type: 'danger',
-                message: 'An upload already in progress'
-            }))
-            return
-        }
+        const { dispatch } = this.props
+
         let file = e.target.files[0]
         e.target.value = null
         this.xhr = new XMLHttpRequest ()
@@ -329,9 +323,15 @@ export default class Browse extends React.Component {
 
     uploadAbort(e) {
         e.preventDefault()
-        const { dispatch } = this.props
-        this.xhr.abort()
-        dispatch (actions.setUpload({inProgress: false, percent: 0}))
+        const { dispatch, uploads } = this.props
+
+        for (var slug in uploads) {
+            let upload = uploads[slug]
+
+            upload.xhr.abort()
+            dispatch(actions.stopUpload({ slug }))
+        }
+
         this.hideAbortModal(e)
     }
 
@@ -507,23 +507,37 @@ export default class Browse extends React.Component {
 
     render() {
         const { total, free } = this.props.storageInfo
-        const { showMakeBucketModal, showAbortModal, upload, alert, sortNameOrder, sortSizeOrder, sortDateOrder, showAbout, showBucketPolicy, showSettings, settings } = this.props
+        const { showMakeBucketModal, showAbortModal, alert, sortNameOrder, sortSizeOrder, sortDateOrder, showAbout, showBucketPolicy, showSettings, settings } = this.props
         const { version, memory, platform, runtime, envVars } = this.props.serverInfo
         const { sidebarStatus } = this.props
+        const { uploads } = this.props
 
         let progressBar = ''
-        let percent = (upload.loaded / upload.total) * 100
-        if (upload.inProgress) {
+        // If we have a file uploading, show the status box.
+        let numberUploading = Object.keys(uploads).length
+        if (numberUploading > 0) {
+            let totalLoaded = 0
+            let totalSize = 0
+
+            for (var slug in uploads) {
+                let upload = uploads[slug]
+
+                totalLoaded += upload.loaded
+                totalSize += upload.size
+            }
+            let percent = (totalLoaded / totalSize) * 100
+            let text = 'Uploading ' + (numberUploading == 1 ? `'${uploads[Object.keys(uploads)[0]].name}'` : `files (${numberUploading})`) + '...'
+
             progressBar = <div className="alert progress animated fadeInUp alert-info">
                 <button type="button" className="close" onClick={this.showAbortModal.bind(this)}>
                     <span>&times;</span>
                 </button>
                 <div className="text-center">
-                    <small>{upload.filename}</small>
+                    <small>{text}</small>
                 </div>
                 <ProgressBar now={percent}/>
                 <div className="text-center">
-                    <small>{humanize.filesize(upload.loaded)} ({percent.toFixed(2)} %)</small>
+                    <small>{humanize.filesize(totalLoaded)} ({percent.toFixed(2)} %)</small>
                 </div>
             </div>
         }
@@ -546,7 +560,7 @@ export default class Browse extends React.Component {
         if (showAbortModal) {
             abortModal = <ConfirmModal
                 baseClass={baseClass}
-                text="Abort the upload in progress?"
+                text="Abort uploads in progress?"
                 okText='Abort'
                 okIcon={okIcon}
                 cancelText='Continue'
