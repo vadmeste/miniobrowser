@@ -1,12 +1,12 @@
 # Minio File Browser
 
-``MinioBrowser`` provides minimal set of UI to manage buckets and objects on ``minio`` server. ``MinioBrowser`` is written in javascript and released under [Apache 2.0 License](./LICENSE).
+``miniobrowser`` provides minimal set of UI to manage buckets and objects on ``minio`` server. ``miniobrowser`` is written in javascript and released under [Apache 2.0 License](./LICENSE).
 
 ## Installation
 
 ```sh
-$ git clone https://github.com/minio/MinioBrowser
-$ cd MinioBrowser
+$ git clone https://github.com/minio/miniobrowser
+$ cd miniobrowser
 $ npm install
 ```
 
@@ -39,5 +39,4 @@ $ npm run release
 $ npm run dev
 ```
 
-Open `http://localhost:8080/minio` in your browser to play with the application
-
+Open (http://localhost:8080/minio)[http://localhost:8080/minio] in your browser to play with the application
