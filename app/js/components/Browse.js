@@ -23,15 +23,19 @@ import Moment from 'moment'
 import Modal from 'react-bootstrap/lib/Modal'
 import ModalBody from 'react-bootstrap/lib/ModalBody'
 import ModalHeader from 'react-bootstrap/lib/ModalHeader'
-import ProgressBar from 'react-bootstrap/lib/ProgressBar'
 import Alert from 'react-bootstrap/lib/Alert'
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger'
 import Tooltip from 'react-bootstrap/lib/Tooltip'
-import Scrollbars from 'react-custom-scrollbars/lib/Scrollbars'
 import Dropdown from 'react-bootstrap/lib/Dropdown'
 import MenuItem from 'react-bootstrap/lib/MenuItem'
+
 import InputGroup from '../components/InputGroup'
 import Dropzone from '../components/Dropzone'
+import ObjectsList from '../components/ObjectsList'
+import SideBar from '../components/SideBar'
+import Path from '../components/Path'
+import BrowserUpdate from '../components/BrowserUpdate'
+import UploadModal from '../components/UploadModal'
 
 import logo from '../../img/logo.svg'
 
@@ -39,128 +43,6 @@ import * as actions from '../actions'
 import * as utils from '../utils'
 import * as mime from '../mime'
 import { minioBrowserPrefix } from '../constants'
-
-let SideBar = ({ visibleBuckets, loadBucket, currentBucket, selectBucket, searchBuckets, landingPage, sidebarStatus, clickOutside, showPolicy }) => {
-    let ClickOutHandler = require('react-onclickout');
-
-    const list = visibleBuckets.map((bucket, i) => {
-        return <li className={classNames({'active': bucket === currentBucket})} key={i} onClick={(e) => selectBucket(e, bucket)}>
-            <a href="" className={classNames({'fesli-loading': bucket === loadBucket})}>
-                {bucket}
-                {bucket === loadBucket ? <span className="loading l-bucket"><i /></span> : ''}
-            </a>
-
-            <i className="fa fa-ellipsis-h" onClick={showPolicy}></i>
-        </li>
-    })
-
-    return (
-        <ClickOutHandler onClickOut={clickOutside}>
-            <div className={classNames({'fe-sidebar': true, 'toggled': sidebarStatus})}>
-                <div className="fes-header clearfix hidden-sm hidden-xs">
-                    <a href="" onClick={landingPage}>
-                        <img src={logo} alt=""/>
-                        <h2 className="fe-h2">Minio Browser</h2>
-                    </a>
-                </div>
-
-                <div className="fes-list">
-                    <div className="fesl-search">
-                        <input type="text" onChange={searchBuckets} placeholder="Search Buckets..."/>
-                        <i></i>
-                    </div>
-                    <div className="fesl-inner">
-                        <Scrollbars
-                            renderScrollbarVertical={props => <div className="scrollbar-vertical"/>}
-                        >
-                            <ul>
-                                {list}
-                            </ul>
-                        </Scrollbars>
-                    </div>
-                </div>
-
-                <div className="fes-host">
-                    <i className="fa fa-globe"></i>
-                    <a href="/">{window.location.host}</a>
-                </div>
-            </div>
-        </ClickOutHandler>
-    )
-}
-SideBar = connect(state => state) (SideBar)
-
-let ObjectsList = ({objects, currentPath, selectPrefix, dataType, removeObject, loadPath }) => {
-    const list = objects.map((object, i) => {
-        let size = object.name.endsWith('/') ? '-' : humanize.filesize(object.size)
-        let lastModified = object.name.endsWith('/') ? '-' : Moment(object.lastModified).format('lll')
-        let loadingClass = loadPath === `${currentPath}${object.name}` ? 'fesl-loading' : ''
-        return (
-            <div key={i} className={"fesl-row " + loadingClass} data-type={dataType(object.name, object.contentType)}>
-
-                {loadPath === `${currentPath}${object.name}` ? <span className="loading l-listing"><i /></span> : ''}
-
-                <div className="fesl-item fi-name">
-                    <a href="" onClick={(e) => selectPrefix(e, `${currentPath}${object.name}`)}>
-                        {object.name}
-                    </a>
-                </div>
-                <div className="fesl-item fi-size">{size}</div>
-                <div className="fesl-item fi-modified">{lastModified}</div>
-            </div>
-        )
-    })
-    return (
-        <div>{list}</div>
-    )
-}
-ObjectsList = connect(state => state) (ObjectsList)
-
-let Path = ({currentBucket, currentPath, selectPrefix}) => {
-    let dirPath = []
-    let path = currentPath.split('/').map((dir, i) => {
-        dirPath.push(dir)
-        let dirPath_ = dirPath.join('/') + '/'
-        return <span key={i}><a href="" onClick={(e) => selectPrefix(e, dirPath_)}>{dir}</a></span>
-    })
-    return (
-        <h2 className="fe-h2">
-            <span className="main">
-               <a onClick={(e) => selectPrefix(e, '')} href="">
-                  {currentBucket}
-               </a>
-            </span>
-            {path}
-        </h2>
-    )
-}
-Path = connect(state => state) (Path)
-
-let ConfirmModal = ({baseClass, text, okText, okIcon, cancelText, cancelIcon, okHandler, cancelHandler}) => {
-    return <Modal animation={false} show={true} className={baseClass}>
-        <ModalBody>
-            <div className="cm-text">{text}</div>
-            <div className="cm-footer">
-                <button className="cmf-btn" onClick={okHandler}><i className={okIcon}></i>{okText}</button>
-                <button className="cmf-btn" onClick={cancelHandler}><i className={cancelIcon}></i>{cancelText}</button>
-            </div>
-        </ModalBody>
-    </Modal>
-}
-ConfirmModal = connect(state => state) (ConfirmModal)
-
-// removed below i tag's onClick in favour of parent a href
-let BrowserUpdate = ({latestUiVersion}) => {
-  if (latestUiVersion === currentUiVersion) return <noscript></noscript>
-  return  <li className="hidden-xs hidden-sm">
-            <a href="">
-                <OverlayTrigger placement="left" overlay={<Tooltip id="tt-version-update">New update available. Click to refresh.</Tooltip>}>
-                    <i className="fa fa-refresh"></i>
-                </OverlayTrigger>
-            </a>
-          </li>
-}
-BrowserUpdate = connect(state => state) (BrowserUpdate)
 
 export default class Browse extends React.Component {
     componentDidMount() {
@@ -319,32 +201,6 @@ export default class Browse extends React.Component {
         type: 'danger',
         message: e.message
       })))
-    }
-
-    uploadAbort(e) {
-        e.preventDefault()
-        const { dispatch, uploads } = this.props
-
-        for (var slug in uploads) {
-            let upload = uploads[slug]
-
-            upload.xhr.abort()
-            dispatch(actions.stopUpload({ slug }))
-        }
-
-        this.hideAbortModal(e)
-    }
-
-    showAbortModal(e) {
-        e.preventDefault()
-        const { dispatch } = this.props
-        dispatch (actions.setShowAbortModal(true))
-    }
-
-    hideAbortModal(e) {
-        e.preventDefault()
-        const { dispatch } = this.props
-        dispatch(actions.setShowAbortModal(false))
     }
 
     hideAlert() {
@@ -507,40 +363,10 @@ export default class Browse extends React.Component {
 
     render() {
         const { total, free } = this.props.storageInfo
-        const { showMakeBucketModal, showAbortModal, alert, sortNameOrder, sortSizeOrder, sortDateOrder, showAbout, showBucketPolicy, showSettings, settings } = this.props
+        const { showMakeBucketModal, alert, sortNameOrder, sortSizeOrder, sortDateOrder, showAbout, showBucketPolicy, showSettings, settings } = this.props
         const { version, memory, platform, runtime, envVars } = this.props.serverInfo
         const { sidebarStatus } = this.props
-        const { uploads } = this.props
 
-        let progressBar = ''
-        // If we have a file uploading, show the status box.
-        let numberUploading = Object.keys(uploads).length
-        if (numberUploading > 0) {
-            let totalLoaded = 0
-            let totalSize = 0
-
-            for (var slug in uploads) {
-                let upload = uploads[slug]
-
-                totalLoaded += upload.loaded
-                totalSize += upload.size
-            }
-            let percent = (totalLoaded / totalSize) * 100
-            let text = 'Uploading ' + (numberUploading == 1 ? `'${uploads[Object.keys(uploads)[0]].name}'` : `files (${numberUploading})`) + '...'
-
-            progressBar = <div className="alert progress animated fadeInUp alert-info">
-                <button type="button" className="close" onClick={this.showAbortModal.bind(this)}>
-                    <span>&times;</span>
-                </button>
-                <div className="text-center">
-                    <small>{text}</small>
-                </div>
-                <ProgressBar now={percent}/>
-                <div className="text-center">
-                    <small>{humanize.filesize(totalLoaded)} ({percent.toFixed(2)} %)</small>
-                </div>
-            </div>
-        }
         let alertBox = <Alert className={classNames({
                                           'alert': true,
                                           'animated': true,
@@ -553,22 +379,7 @@ export default class Browse extends React.Component {
                         </Alert>
         // Make sure you don't show a fading out alert box on the initial web-page load.
         if (!alert.message) alertBox = ''
-        let abortModal = ''
-        let baseClass = classNames({'abort-upload': true})
-        let okIcon = classNames({'fa': true, 'fa-stop': true})
-        let cancelIcon = classNames({'fa': true, 'fa-play': true})
-        if (showAbortModal) {
-            abortModal = <ConfirmModal
-                baseClass={baseClass}
-                text="Abort uploads in progress?"
-                okText='Abort'
-                okIcon={okIcon}
-                cancelText='Continue'
-                cancelIcon={cancelIcon}
-                okHandler={this.uploadAbort.bind(this)}
-                cancelHandler={this.hideAbortModal.bind(this)}>
-            </ConfirmModal>
-        }
+
         let signoutTooltip = <Tooltip id="tt-sign-out">Sign out</Tooltip>
         let uploadTooltip = <Tooltip id="tt-upload-file">Upload file</Tooltip>
         let makeBucketTooltip = <Tooltip id="tt-create-bucket">Create bucket</Tooltip>
@@ -578,7 +389,6 @@ export default class Browse extends React.Component {
         let freePercent = free * 100 / total
         return (
             <div className={classNames({'file-explorer': true, 'toggled': sidebarStatus})}>
-                {abortModal}
                 <SideBar landingPage={this.landingPage.bind(this)}
                             searchBuckets={this.searchBuckets.bind(this)}
                             selectBucket={this.selectBucket.bind(this)}
@@ -679,9 +489,10 @@ export default class Browse extends React.Component {
                     </div>
 
                     <div className="feb-container">
-                        <ObjectsList removeObject={this.removeObject.bind(this)} dataType={this.dataType.bind(this)} selectPrefix={this.selectPrefix.bind(this)}/>
+                        <ObjectsList dataType={this.dataType.bind(this)} selectPrefix={this.selectPrefix.bind(this)}/>
                     </div>
-                    {progressBar}
+
+                    <UploadModal />
 
                     <Dropdown dropup className="feb-actions" id="fe-action-toggle">
                         <Dropdown.Toggle noCaret className="feba-toggle">
