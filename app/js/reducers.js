@@ -22,7 +22,8 @@ export default (state = {buckets:[], visibleBuckets:[], objects:[], storageInfo:
                 alert: {show: false, type: 'danger', message: ''}, loginError : false,
                 sortNameOrder: false, sortSizeOrder: false, sortDateOrder: false,
                 latestUiVersion: currentUiVersion, sideBarActive: false,
-                loginRedirectPath: minioBrowserPrefix, settings: {accessKey:'', secretKey: '', secretKeyVisible: false}}, action) => {
+                loginRedirectPath: minioBrowserPrefix, settings: {accessKey:'', secretKey: '', secretKeyVisible: false},
+                showSettings: false }, action) => {
   let newState = Object.assign({}, state)
   switch (action.type) {
     case actions.SET_WEB:

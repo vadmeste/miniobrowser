@@ -36,6 +36,7 @@ import SideBar from '../components/SideBar'
 import Path from '../components/Path'
 import BrowserUpdate from '../components/BrowserUpdate'
 import UploadModal from '../components/UploadModal'
+import SettingsModal from '../components/SettingsModal'
 
 import logo from '../../img/logo.svg'
 
@@ -283,89 +284,22 @@ export default class Browse extends React.Component {
 
     showSettings(e) {
         e.preventDefault()
+
         const { dispatch } = this.props
         dispatch(actions.showSettings())
-        let accessKeyEnv = ''
-        let secretKeyEnv = ''
-        this.props.serverInfo.envVars.forEach(envVar => {
-            let keyVal = envVar.split('=')
-            if (keyVal[0] == 'MINIO_ACCESS_KEY'){
-                accessKeyEnv = keyVal[1]
-            } else if (keyVal[0] == 'MINIO_SECRET_KEY') {
-                secretKeyEnv = keyVal[1]
-            }
-        })
-        if (accessKeyEnv != '' || secretKeyEnv != '') {
-            dispatch(actions.setSettings({accessKey: accessKeyEnv, secretKey: secretKeyEnv, keysReadOnly: true}))
-        } else {
-            web.GetAuth()
-                .then(data => {
-                    dispatch(actions.setSettings({accessKey: data.accessKey, secretKey: data.secretKey}))
-                })
-        }
-    }
-
-    hideSettings(e) {
-        e.preventDefault()
-        const { dispatch } = this.props
-        dispatch(actions.setSettings({accessKey:'', secretKey:'', secretKeyVisible: false}))
-        dispatch(actions.hideSettings())
-    }
-
-    accessKeyChange(e) {
-      const { dispatch } = this.props
-      dispatch(actions.setSettings({accessKey: e.target.value}))
-    }
-
-    secretKeyChange(e) {
-      const { dispatch } = this.props
-      dispatch(actions.setSettings({secretKey: e.target.value}))
-    }
-
-    secretKeyVisible(secretKeyVisible) {
-      const { dispatch } = this.props
-      dispatch(actions.setSettings({secretKeyVisible}))
-    }
-
-    generateAuth(e) {
-      e.preventDefault()
-      const { dispatch } = this.props
-      web.GenerateAuth()
-        .then(data => {
-          dispatch(actions.setSettings({secretKeyVisible: true}))
-          dispatch(actions.setSettings({accessKey: data.accessKey, secretKey: data.secretKey}))
-        })
-    }
-
-    setAuth(e) {
-      e.preventDefault()
-      const { web, dispatch } = this.props
-      let accessKey = document.getElementById('accessKey').value
-      let secretKey = document.getElementById('secretKey').value
-      web.SetAuth({accessKey, secretKey})
-        .then(data => {
-          dispatch(actions.setSettings({accessKey:'', secretKey:'', secretKeyVisible: false}))
-          dispatch(actions.hideSettings())
-          dispatch(actions.showAlert({
-            type: 'success',
-            message: 'Changed credentials'
-          }))
-        })
-        .catch(err => {
-          dispatch(actions.setSettings({accessKey:'', secretKey:'', secretKeyVisible: false}))
-          dispatch(actions.hideSettings())
-          dispatch(actions.showAlert({
-            type: 'danger',
-            message: err.message
-          }))
-        })
     }
 
     render() {
         const { total, free } = this.props.storageInfo
-        const { showMakeBucketModal, alert, sortNameOrder, sortSizeOrder, sortDateOrder, showAbout, showBucketPolicy, showSettings, settings } = this.props
-        const { version, memory, platform, runtime, envVars } = this.props.serverInfo
+        const { showMakeBucketModal, alert, sortNameOrder, sortSizeOrder, sortDateOrder, showAbout, showBucketPolicy } = this.props
+        const { version, memory, platform, runtime } = this.props.serverInfo
         const { sidebarStatus } = this.props
+        const { showSettings } = this.props
+
+        // Don't always show the SettingsModal. This is done here instead of in
+        // SettingsModal.js so as to allow for #componentWillMount to handle
+        // the loading of the settings.
+        let settingsModal = showSettings ? <SettingsModal /> : <noscript></noscript>
 
         let alertBox = <Alert className={classNames({
                                           'alert': true,
@@ -652,38 +586,8 @@ export default class Browse extends React.Component {
                         </div>
                     </Modal>
 
-                    <Modal bsSize="sm" show={showSettings}>
-                        <ModalHeader>
-                            Change Password
-                        </ModalHeader>
-                        <ModalBody className="m-t-20">
+                    { settingsModal }
 
-                            <InputGroup value={settings.accessKey} onChange={this.accessKeyChange.bind(this)} id="accessKey" label="Access Key" name="accesskey" type="text" spellCheck="false" required="required" autoComplete="false" align="ig-left" readonly={settings.keysReadOnly} ></InputGroup>
-
-                            <div className="p-relative">
-                                <InputGroup value={settings.secretKey} onChange={this.secretKeyChange.bind(this)} id="secretKey" label="Secret Key" name="accesskey" type={settings.secretKeyVisible ? "text" : "password"} spellCheck="false" required="required" autoComplete="false" align="ig-left" readonly={settings.keysReadOnly}></InputGroup>
-                                <i onClick={this.secretKeyVisible.bind(this, !settings.secretKeyVisible)} className={"toggle-password fa fa-eye " + (settings.secretKeyVisible ? "toggled" : "")} />
-                            </div>
-
-                            <div className="clearfix" />
-                        </ModalBody>
-
-                        <div className="modal-footer clearfix p-t-0">
-                            <OverlayTrigger placement="bottom" overlay={<Tooltip id="tt-password-generate">Generate Keys</Tooltip>}>
-                                <a href="" className={"mf-btn mf-highlight "  + (settings.keysReadOnly? "hidden":"")} onClick={this.generateAuth.bind(this)}>
-                                    <i className="fa fa-repeat"></i>
-                                </a>
-
-                            </OverlayTrigger>
-
-                            <a href="" className={"mf-btn " + (settings.keysReadOnly? "hidden":"")} onClick={this.setAuth.bind(this)}>
-                                <i className="fa fa-check"></i>
-                            </a>
-                            <a href="" className="mf-btn" onClick={this.hideSettings.bind(this)}>
-                                <i className="fa fa-times"></i>
-                            </a>
-                        </div>
-                    </Modal>
                     </Dropzone>
                 </div>
             </div>
