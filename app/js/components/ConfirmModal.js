@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import React from 'react'
 import Modal from 'react-bootstrap/lib/Modal'
 import ModalBody from 'react-bootstrap/lib/ModalBody'
 

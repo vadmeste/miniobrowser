@@ -63,17 +63,21 @@ export default (state = {buckets:[], visibleBuckets:[], objects:[], storageInfo:
       newState.objects = [action.object, ...newState.objects]
       break
     case actions.UPLOAD_PROGRESS:
+      newState.uploads = Object.assign({}, newState.uploads)
       newState.uploads[action.slug].loaded = action.loaded
       break
     case actions.ADD_UPLOAD:
-      newState.uploads[action.slug] = {
-        loaded: 0,
-        size: action.size,
-        xhr: action.xhr,
-        name: action.name
-      }
+      newState.uploads = Object.assign({}, newState.uploads, {
+        [action.slug]: {
+          loaded: 0,
+          size: action.size,
+          xhr: action.xhr,
+          name: action.name
+        }
+      })
       break
     case actions.STOP_UPLOAD:
+      newState.uploads = Object.assign({}, newState.uploads)
       delete newState.uploads[action.slug]
       break
     case actions.SET_ALERT:
