@@ -48,6 +48,12 @@ export const SET_LOAD_PATH = 'SET_LOAD_PATH'
 export const SHOW_SETTINGS = 'SHOW_SETTINGS'
 export const SET_SETTINGS = 'SET_SETTINGS'
 export const SHOW_BUCKET_POLICY = 'SHOW_BUCKET_POLICY'
+export const ADD_POLICY = 'ADD_POLICY'
+export const REMOVE_POLICY = 'REMOVE_POLICY'
+export const UPDATE_POLICY = 'UPDATE_POLICY'
+export const READ_ONLY = 'readonly'
+export const WRITE_ONLY = 'writeonly'
+export const READ_WRITE = 'readwrite'
 
 export const setLoginRedirectPath = (path) => {
   return {
@@ -351,17 +357,17 @@ export const setSortSizeOrder = (sortSizeOrder) => {
 }
 
 export const setSortDateOrder = (sortDateOrder) => {
-  return {
-    type: SET_SORT_DATE_ORDER,
-    sortDateOrder
-  }
+    return {
+        type: SET_SORT_DATE_ORDER,
+        sortDateOrder
+    }
 }
 
 export const setLatestUIVersion = (latestUiVersion) => {
-  return {
-    type: SET_LATEST_UI_VERSION,
-    latestUiVersion
-  }
+    return {
+        type: SET_LATEST_UI_VERSION,
+        latestUiVersion
+    }
 }
 
 export const showSettings = () => {
@@ -379,22 +385,43 @@ export const hideSettings = () => {
 }
 
 export const setSettings = (settings) => {
-  return {
-    type: SET_SETTINGS,
-    settings
-  }
+    return {
+        type: SET_SETTINGS,
+        settings
+    }
 }
 
 export const showBucketPolicy = () => {
-  return {
-    type: SHOW_BUCKET_POLICY,
-    showBucketPolicy: true
-  }
+    return {
+        type: SHOW_BUCKET_POLICY,
+        showBucketPolicy: true
+    }
 }
 
 export const hideBucketPolicy = () => {
-  return {
-    type: SHOW_BUCKET_POLICY,
-    showBucketPolicy: false
-  }
+    return {
+        type: SHOW_BUCKET_POLICY,
+        showBucketPolicy: false
+    }
+}
+
+export const addPolicy = (bucket, prefix, policy) => {
+    return {
+        type: ADD_POLICY,
+        bucket, prefix, policy
+    }
+}
+
+export const removePolicy = (bucket, prefix) => {
+    return {
+        type: types.REMOVE_POLICY,
+        bucket, prefix
+    }
+}
+
+export const updatePolicy = (bucket, prefix, policy) => {
+    return {
+        type: types.UPDATE_POLICY,
+        bucket, prefix, policy
+    }
 }

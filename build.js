@@ -25,7 +25,7 @@ var commitId = ''
 var date = moment.utc()
 var version = date.format('YYYY-MM-DDTHH:mm:ss') + 'Z'
 var releaseTag = date.format('YYYY-MM-DDTHH-mm-ss') + 'Z'
-var buildType = 'UNOFFICIAL'
+var buildType = 'DEVELOPMENT'
 if (process.env.MINIO_UI_BUILD) buildType = process.env.MINIO_UI_BUILD
 
 rmDir = function(dirPath) {

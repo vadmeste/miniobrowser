@@ -109,7 +109,7 @@ class SettingsModal extends React.Component {
     generateAuth(e) {
         e.preventDefault()
         const { dispatch } = this.props
-    
+
         web.GenerateAuth()
             .then(data => {
                 dispatch(actions.setSettings({secretKeyVisible: true}))
@@ -164,5 +164,9 @@ class SettingsModal extends React.Component {
 }
 
 export default connect(state => {
-    return { web: state.web, settings: state.settings, serverInfo: state.serverInfo }
+    return {
+        web: state.web,
+        settings: state.settings,
+        serverInfo: state.serverInfo
+    }
 })(SettingsModal)

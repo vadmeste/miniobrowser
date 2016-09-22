@@ -109,4 +109,10 @@ export default class Web {
                   return res
                 })
   }
+  GetBucketPolicy(args) {
+    return this.makeCall('GetBucketPolicy', args)
+  }
+  SetBucketPolicy(args) {
+    return this.makeCall('SetBucketPolicy', args)
+  }
 }

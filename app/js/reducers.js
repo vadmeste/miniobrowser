@@ -23,7 +23,7 @@ export default (state = {buckets:[], visibleBuckets:[], objects:[], storageInfo:
                 sortNameOrder: false, sortSizeOrder: false, sortDateOrder: false,
                 latestUiVersion: currentUiVersion, sideBarActive: false,
                 loginRedirectPath: minioBrowserPrefix, settings: {accessKey:'', secretKey: '', secretKeyVisible: false},
-                showSettings: false }, action) => {
+                showSettings: false, policies: []}, action) => {
   let newState = Object.assign({}, state)
   switch (action.type) {
     case actions.SET_WEB:
@@ -128,6 +128,43 @@ export default (state = {buckets:[], visibleBuckets:[], objects:[], storageInfo:
       break
     case actions.SHOW_BUCKET_POLICY:
       newState.showBucketPolicy = action.showBucketPolicy
+      break
+    case actions.ADD_POLICY:
+      let bucketName = action.bucket.trim()
+      if (bucketName.length > 0 && action.prefix.startsWith(bucketName + "/")) {
+        let updated = false
+        for (var i = 0; i < newState.policies.length; i++) {
+          if (newState.policies[i].prefix === action.prefix) {
+            newState.policies[i].policy = action.policy
+            updated = true
+          }
+        }
+
+        if (!updated) {
+          newState.policies = [
+            {
+              bucket: action.bucket,
+              prefix: action.prefix,
+              policy: action.policy,
+            },
+            ...newState.policies
+          ]
+        }
+      }
+      break
+
+    case actions.REMOVE_POLICY:
+      newState.policies = newState.policies.filter(policy =>
+         policy.bucket !== action.bucket && policy.prefix !== action.prefix
+      )
+      break
+
+    case actions.UPDATE_POLICY:
+      newState.policies = newState.policies.map(policy =>
+        policy.bucket === action.bucket && policy.prefix === action.prefix ?
+          { ...policy, bucket: action.bucket, prefix: action.prefix, policy: action.policy } :
+          policy
+      )
       break
   }
   return newState

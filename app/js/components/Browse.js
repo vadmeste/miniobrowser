@@ -17,7 +17,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import browserHistory from 'react-router/lib/browserHistory'
-import connect from 'react-redux/lib/components/connect'
 import humanize from 'humanize'
 import Moment from 'moment'
 import Modal from 'react-bootstrap/lib/Modal'
@@ -37,6 +36,8 @@ import Path from '../components/Path'
 import BrowserUpdate from '../components/BrowserUpdate'
 import UploadModal from '../components/UploadModal'
 import SettingsModal from '../components/SettingsModal'
+import PolicyInput from '../components/PolicyInput'
+import Policy from '../components/Policy'
 
 import logo from '../../img/logo.svg'
 
@@ -170,13 +171,13 @@ export default class Browse extends React.Component {
         dispatch(actions.hideAbout())
     }
 
-    showBucketPolicy() {
+    showBucketPolicy(e) {
+        e.preventDefault()
         const { dispatch } = this.props
         dispatch(actions.showBucketPolicy())
     }
 
-    hideBucketPolicy(e) {
-        e.preventDefault()
+    hideBucketPolicy() {
         const { dispatch } = this.props
         dispatch(actions.hideBucketPolicy())
     }
@@ -295,6 +296,7 @@ export default class Browse extends React.Component {
         const { version, memory, platform, runtime } = this.props.serverInfo
         const { sidebarStatus } = this.props
         const { showSettings } = this.props
+        const { policies, currentBucket, currentPath } = this.props
 
         // Don't always show the SettingsModal. This is done here instead of in
         // SettingsModal.js so as to allow for #componentWillMount to handle
@@ -512,77 +514,12 @@ export default class Browse extends React.Component {
                         </ModalHeader>
 
                         <div className="pm-body">
-                            <header className="pmb-list">
-                                <div className="pmbl-item">
-                                    <input type="text" className="form-control" value="bucket"/>
-                                </div>
-                                <div className="pmbl-item">
-                                    <select className="form-control">
-                                        <option>Read Only</option>
-                                        <option>Write Only</option>
-                                        <option>Read and Write</option>
-                                    </select>
-                                </div>
-                                <div className="pmbl-item">
-                                    <a href="" className="btn btn-sm btn-block btn-primary">Add</a>
-                                </div>
-                            </header>
-
-                            <div className="pmb-list">
-                                <div className="pmbl-item">bucket/photos</div>
-                                <div className="pmbl-item">
-                                    <select className="form-control">
-                                        <option>Read Only</option>
-                                        <option>Write Only</option>
-                                        <option>Read and Write</option>
-                                    </select>
-                                </div>
-                                <div className="pmbl-item">
-                                    <a href="" className="btn btn-sm btn-block btn-danger">Remove</a>
-                                </div>
-                            </div>
-
-                            <div className="pmb-list">
-                                <div className="pmbl-item">bucket/photos</div>
-                                <div className="pmbl-item">
-                                    <select className="form-control">
-                                        <option>Read Only</option>
-                                        <option>Write Only</option>
-                                        <option>Read and Write</option>
-                                    </select>
-                                </div>
-                                <div className="pmbl-item">
-                                    <a href="" className="btn btn-sm btn-block btn-danger">Remove</a>
-                                </div>
-                            </div>
-
-                            <div className="pmb-list">
-                                <div className="pmbl-item">bucket/photos</div>
-                                <div className="pmbl-item">
-                                    <select className="form-control">
-                                        <option>Read Only</option>
-                                        <option>Write Only</option>
-                                        <option>Read and Write</option>
-                                    </select>
-                                </div>
-                                <div className="pmbl-item">
-                                    <a href="" className="btn btn-sm btn-block btn-danger">Remove</a>
-                                </div>
-                            </div>
-
-                            <div className="pmb-list">
-                                <div className="pmbl-item">bucket/photos</div>
-                                <div className="pmbl-item">
-                                    <select className="form-control">
-                                        <option>Read Only</option>
-                                        <option>Write Only</option>
-                                        <option>Read and Write</option>
-                                    </select>
-                                </div>
-                                <div className="pmbl-item">
-                                    <a href="" className="btn btn-sm btn-block btn-danger">Remove</a>
-                                </div>
-                            </div>
+                            <PolicyInput bucket={currentBucket} prefix={currentPath} />
+                            <ul className="pmb-list">
+                              {policies.map(policy =>
+                                <Policy policy={policy} {...actions} />
+                              )}
+                            </ul>
                         </div>
                     </Modal>
 
