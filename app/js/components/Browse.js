@@ -166,7 +166,8 @@ export default class Browse extends React.Component {
         dispatch(actions.showAbout())
     }
 
-    hideAbout() {
+    hideAbout(e) {
+        e.preventDefault()
         const { dispatch } = this.props
         dispatch(actions.hideAbout())
     }
@@ -177,7 +178,8 @@ export default class Browse extends React.Component {
         dispatch(actions.showBucketPolicy())
     }
 
-    hideBucketPolicy() {
+    hideBucketPolicy(e) {
+        e.preventDefault()
         const { dispatch } = this.props
         dispatch(actions.hideBucketPolicy())
     }
@@ -205,7 +207,9 @@ export default class Browse extends React.Component {
       })))
     }
 
-    hideAlert() {
+    hideAlert(e) {
+        e.preventDefault()
+
         const { dispatch } = this.props
         dispatch(actions.hideAlert())
     }
@@ -296,7 +300,7 @@ export default class Browse extends React.Component {
         const { version, memory, platform, runtime } = this.props.serverInfo
         const { sidebarStatus } = this.props
         const { showSettings } = this.props
-        const { policies, currentBucket, currentPath } = this.props
+        const { policies, currentBucket } = this.props
 
         // Don't always show the SettingsModal. This is done here instead of in
         // SettingsModal.js so as to allow for #componentWillMount to handle
@@ -506,20 +510,16 @@ export default class Browse extends React.Component {
                     <Modal className="policy-modal" show={showBucketPolicy} onHide={this.hideBucketPolicy.bind(this)}>
                         <ModalHeader>
                             Bucket Policy
-                            <small>Cras justo odio, dapibus ac facilisis in, egestas eget quam.</small>
-
                             <a href="" className="mh-close" onClick={this.hideBucketPolicy.bind(this)}>
                                 <i className="fa fa-times"></i>
                             </a>
                         </ModalHeader>
 
                         <div className="pm-body">
-                            <PolicyInput bucket={currentBucket} prefix={currentPath} />
-                            <ul className="pmb-list">
-                              {policies.map(policy =>
-                                <Policy policy={policy} {...actions} />
-                              )}
-                            </ul>
+                            <PolicyInput bucket={currentBucket} />
+                            {policies.map(policy =>
+                                <Policy prefix={policy.prefix} policy={policy.policy} />
+                            })}
                         </div>
                     </Modal>
 

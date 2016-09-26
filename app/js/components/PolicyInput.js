@@ -6,7 +6,7 @@ import * as actions from '../actions'
 
 class PolicyInput extends Component {
   constructor(props, context) {
-    super(props, context)
+      super(props, context)
       this.state = {
           bucket: this.props.bucket || '',
           prefix: this.props.prefix || '',
@@ -14,18 +14,31 @@ class PolicyInput extends Component {
       }
   }
 
+  componentWillMount() {
+      const { web, dispatch } = this.props
+      web.ListAllBucketPolicies({
+          bucketName: this.state.bucket
+      }).then(res => {
+          let policies = res.policies
+          if (policies) dispatch(actions.setPolicies(policies))
+      }).catch(err => {
+          dispatch(actions.showAlert({type: 'danger', message: err.message}))
+      })
+  }
+
+  componentWillUnmount() {}
+
   handleBucketPrefixChange(e) {
-      this.setState({ prefix: e.target.value.trim() })
+      this.setState({ prefix: e.target.value.trim() || '' })
   }
 
   handlePolicyChange(e) {
-    this.setState({ policy: e.target.value })
+      this.setState({ policy: e.target.value })
   }
 
   handlePolicySubmit(e) {
     e.preventDefault()
     const { web, dispatch } = this.props
-    dispatch(actions.hideBucketPolicy())
     web.SetBucketPolicy({
         bucketName: this.state.bucket,
         prefix: this.state.prefix,
@@ -40,7 +53,7 @@ class PolicyInput extends Component {
 
   render() {
     return (
-      <header className="pmb-list">
+      <div className="pmb-list">
         <div className="pmbl-item">
           <input type="text"
                  className="form-control"
@@ -62,15 +75,9 @@ class PolicyInput extends Component {
           <button className="btn btn-sm btn-block btn-primary" onClick={this.handlePolicySubmit.bind(this)}>Add</button>
         </div>
 
-      </header>
+      </div>
     )
   }
 }
 
-PolicyInput.propTypes = {
-  bucket: PropTypes.string,
-}
-
-export default connect(state => {
-    return { web: state.web }
-})(PolicyInput)
+export default connect(state => state)(PolicyInput)

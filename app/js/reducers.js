@@ -57,11 +57,6 @@ export default (state = {buckets:[], visibleBuckets:[], objects:[], storageInfo:
     case actions.SHOW_MAKEBUCKET_MODAL:
       newState.showMakeBucketModal = action.showMakeBucketModal
       break
-    case actions.ADD_OBJECT:
-      let idx = newState.objects.findIndex(object => object.name === action.object.name)
-      if (idx > -1) newState.objects.splice(idx, 1)
-      newState.objects = [action.object, ...newState.objects]
-      break
     case actions.UPLOAD_PROGRESS:
       newState.uploads = Object.assign({}, newState.uploads)
       newState.uploads[action.slug].loaded = action.loaded
@@ -129,42 +124,20 @@ export default (state = {buckets:[], visibleBuckets:[], objects:[], storageInfo:
     case actions.SHOW_BUCKET_POLICY:
       newState.showBucketPolicy = action.showBucketPolicy
       break
+    case actions.SET_POLICIES:
+      newState.policies = action.policies
     case actions.ADD_POLICY:
-      let bucketName = action.bucket.trim()
-      if (bucketName.length > 0 && action.prefix.startsWith(bucketName + "/")) {
-        let updated = false
-        for (var i = 0; i < newState.policies.length; i++) {
-          if (newState.policies[i].prefix === action.prefix) {
-            newState.policies[i].policy = action.policy
-            updated = true
-          }
-        }
-
-        if (!updated) {
-          newState.policies = [
-            {
-              bucket: action.bucket,
-              prefix: action.prefix,
+      newState.policies = [
+          {
               policy: action.policy,
-            },
-            ...newState.policies
-          ]
-        }
-      }
+              prefix: action.bucket+'/'+action.prefix+'*',
+          },
+          ...newState.policies]
       break
 
     case actions.REMOVE_POLICY:
-      newState.policies = newState.policies.filter(policy =>
-         policy.bucket !== action.bucket && policy.prefix !== action.prefix
-      )
-      break
-
-    case actions.UPDATE_POLICY:
-      newState.policies = newState.policies.map(policy =>
-        policy.bucket === action.bucket && policy.prefix === action.prefix ?
-          { ...policy, bucket: action.bucket, prefix: action.prefix, policy: action.policy } :
-          policy
-      )
+      let bucketPrefix = action.bucket+'/'+action.prefix+'*'
+      newState.policies = newState.policies.filter(policy => policy.prefix !== bucketPrefix)
       break
   }
   return newState

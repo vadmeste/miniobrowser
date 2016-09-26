@@ -115,4 +115,7 @@ export default class Web {
   SetBucketPolicy(args) {
     return this.makeCall('SetBucketPolicy', args)
   }
+  ListAllBucketPolicies(args) {
+    return this.makeCall('ListAllBucketPolicies', args)
+  }
 }
