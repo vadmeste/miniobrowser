@@ -18,16 +18,20 @@ import React from 'react'
 import Modal from 'react-bootstrap/lib/Modal'
 import ModalBody from 'react-bootstrap/lib/ModalBody'
 
-let ConfirmModal = ({ baseClass, text, okText, okIcon, cancelText, cancelIcon, okHandler, cancelHandler, show }) => {
+let ConfirmModal = ({ baseClass, icon, text, sub, okText, okIcon, cancelText, cancelIcon, okHandler, cancelHandler, show }) => {
     return (
-        <Modal animation={false} show={show} className={baseClass}>
+        <Modal bsSize="small" animation={true} show={show} className={"modal-confirm "+(baseClass || '')}>
             <ModalBody>
-                <div className="cm-text">{text}</div>
-                <div className="cm-footer">
-                    <button className="cmf-btn" onClick={okHandler}><i className={okIcon}></i>{okText}</button>
-                    <button className="cmf-btn" onClick={cancelHandler}><i className={cancelIcon}></i>{cancelText}</button>
+                <div className="mc-icon">
+                    <img src={icon} alt=""/>
                 </div>
+                <div className="mc-text">{text}</div>
+                <div className="mc-sub">{sub}</div>
             </ModalBody>
+            <div className="modal-footer">
+                <button className="mf-btn" onClick={okHandler}><i className={okIcon}></i>{okText}</button>
+                <button className="mf-btn" onClick={cancelHandler}><i className={cancelIcon}></i>{cancelText}</button>
+            </div>
         </Modal>
     )
 }

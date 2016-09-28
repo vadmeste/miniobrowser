@@ -94,6 +94,27 @@
 /*--------------------------
     Modal
 ----------------------------*/
+.modal {
+	@media(min-width: @screen-sm-min) {
+		text-align: center;
+
+		&:before {
+			content: '';
+			height: 100%;
+			width: 1px;
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		.modal-dialog {
+			text-align: left;
+			margin: 10px auto;
+			display: inline-block;
+			vertical-align: middle;
+		}
+	}
+}
+
 .modal-header {
 	font-size: 13px;
 	text-transform: uppercase;
@@ -129,7 +150,7 @@
 
 .modal-content {
 	border-radius: 3px;
-	box-shadow: 0 0 23px rgba(0, 0, 0, 0.13);
+	box-shadow: 0 5px 20px rgba(0,0,0,.07);
 }
 
 .modal-dark {
@@ -147,7 +168,7 @@
 }
 
 .modal-footer {
-	padding: 30px;
+	padding: 0 30px 30px;
 	text-align: center;
 }
 
@@ -159,9 +180,11 @@
 	border: 1px solid #D8D8D8;
 	border-radius: 50%;
 	font-size: 15px;
-	margin: 0 6px;
+	margin: 0 4px;
 	color: #ADADAD;
 	text-align: center;
+	background-color: transparent;
+	padding: 0;
 	.transition(all);
 	.transition-duration(250ms);
 
@@ -175,6 +198,11 @@
 		border: 1px solid #fff;
 		color: #fff;
 	}
+}
+
+button.mf-btn > i {
+	position: relative;
+	top: -1px;
 }
 
 .modal-dark {
@@ -262,4 +290,28 @@
 ----------------------------*/
 .hidden {
 	display: none !important;
+}
+
+
+/*--------------------------
+    Dialog
+----------------------------*/
+.modal-confirm {
+	.modal-dialog {
+		text-align: center;
+	}
+}
+
+.mc-icon {
+	margin: 0 0 10px;
+}
+
+.mc-text {
+	color: @text-strong-color;
+}
+
+.mc-sub {
+	color: @text-muted-color;
+	margin-top: 5px;
+	font-size: 13px;
 }

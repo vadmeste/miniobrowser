@@ -75,6 +75,7 @@ var exports = {
       {from: 'app/img/browsers/firefox.png'},
       {from: 'app/img/browsers/safari.png'},
       {from: 'app/img/logo.svg'},
+      {from: 'app/img/alert.svg'},
       {from: 'app/index.html'}
     ]),
     new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en)$/),

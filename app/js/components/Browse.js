@@ -39,9 +39,8 @@ import SettingsModal from '../components/SettingsModal'
 import PolicyInput from '../components/PolicyInput'
 import Policy from '../components/Policy'
 import ConfirmModal from './ConfirmModal'
-
 import logo from '../../img/logo.svg'
-
+import alertIcon from '../../img/alert.svg'
 import * as actions from '../actions'
 import * as utils from '../utils'
 import * as mime from '../mime'
@@ -218,6 +217,7 @@ export default class Browse extends React.Component {
     }
 
     showDeleteConfirmation(e, object) {
+      e.preventDefault()
       const { dispatch } = this.props
       dispatch(actions.showDeleteConfirmation(object))
     }
@@ -539,9 +539,11 @@ export default class Browse extends React.Component {
 
                     <ConfirmModal
                         show={deleteConfirmation.show}
+                        icon={alertIcon}
                         text="Are you sure you want to delete?"
-                        okText='Yes'
-                        cancelText='No'
+                        sub="This cannot be undone!"
+                        okIcon="fa fa-check"
+                        cancelIcon="fa fa-times"
                         okHandler={this.removeObject.bind(this)}
                         cancelHandler={this.hideDeleteConfirmation.bind(this)}>
                     </ConfirmModal>
