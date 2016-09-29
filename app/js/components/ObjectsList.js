@@ -26,11 +26,12 @@ let ObjectsList = ({ objects, currentPath, selectPrefix, dataType, showDeleteCon
         let size = object.name.endsWith('/') ? '-' : humanize.filesize(object.size)
         let lastModified = object.name.endsWith('/') ? '-' : Moment(object.lastModified).format('lll')
         let loadingClass = loadPath === `${currentPath}${object.name}` ? 'fesl-loading' : ''
-        let deleteButton = ''
+        let actionButtons = ''
         if (!object.name.endsWith('/')) {
-          deleteButton = <Dropdown id="fia-dropdown">
+            actionButtons = <Dropdown id="fia-dropdown">
                               <Dropdown.Toggle noCaret className="fia-toggle"></Dropdown.Toggle>
                               <Dropdown.Menu>
+                                  <a href="" className="fiad-action" onClick={(e) => actions.shareObject(objectPath)} ><i className="fa fa-share"></i></a>
                                   <a href="" className="fiad-action" onClick={(e) => showDeleteConfirmation(e, `${currentPath}${object.name}`)} ><i className="fa fa-trash-empty"></i></a>
                               </Dropdown.Menu>
                           </Dropdown>
@@ -50,7 +51,7 @@ let ObjectsList = ({ objects, currentPath, selectPrefix, dataType, showDeleteCon
                 </div>
                 <div className="fesl-item fi-size">{size}</div>
                 <div className="fesl-item fi-modified">{lastModified}</div>
-                <div className="fesl-item fi-actions">{deleteButton}</div>
+                <div className="fesl-item fi-actions">{actionButtons}</div>
             </div>
         )
     })

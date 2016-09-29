@@ -341,10 +341,19 @@ div.fesl-row {
     font-weight: normal;
     position: relative;
     top: 4px;
+    margin-left: 5px;
     .animation-name(fiad-action-anim);
-    .animation-duration(200ms);
     .transform-origin(center center);
+    .backface-visibility(none);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    &:nth-child(2) {
+        .animation-duration(200ms);
+    }
+
+    &:nth-child(1) {
+        .animation-duration(350ms);
+    }
 
     & > i {
         font-size: 16px;
