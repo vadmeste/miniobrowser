@@ -46,6 +46,7 @@ import * as utils from '../utils'
 import * as mime from '../mime'
 import { minioBrowserPrefix } from '../constants'
 
+
 export default class Browse extends React.Component {
     componentDidMount() {
         const { web, dispatch, currentBucket } = this.props
@@ -561,12 +562,15 @@ export default class Browse extends React.Component {
                         cancelHandler={this.hideDeleteConfirmation.bind(this)}>
                     </ConfirmModal>
 
-                    <Modal show={shareObject.show} onHide={this.hideShareObjectModal.bind(this)}>
-                      <ModalHeader>
-                        Share URL
-                      </ModalHeader>
+                    <Modal show={shareObject.show} animation={false} onHide={this.hideShareObjectModal.bind(this)} bsSize="small">
                       <ModalBody>
-                        {shareObject.url}
+                        <div className="copy-text">
+                            <label>Shareable Link</label>
+
+                            <div className="p-relative">
+                                <input type="text" readOnly="readOnly" value={shareObject.url} />
+                            </div>
+                        </div>
                       </ModalBody>
                     </Modal>
 
