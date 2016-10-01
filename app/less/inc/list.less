@@ -13,10 +13,6 @@
         justify-content: space-between;
     }
 
-    @media (max-width: @screen-xs-max - 100px) {
-
-    }
-
     .clearfix();
 }
 
@@ -79,20 +75,10 @@ div.fesl-row {
         background-color: #fbf7dc;
     }
 
-    &.context-menu-active {
-        background-color: #03A9F4;
-        color: #fff;
-        .fesl-item:before,
-        a {
-            color: #fff;
-        }
-    }
-
     &[data-type]:before {
         font-family: @font-family-icon;
         width: 35px;
         height: 35px;
-        vertical-align: top;
         text-align: center;
         line-height: 35px;
         position: absolute;
@@ -188,18 +174,18 @@ div.fesl-row {
     color: #808080;
     display: block;
 
-    &:not(.fi-actions) {
-        padding: 10px 15px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-    }
-
     a {
         color: @text-color;
     }
 
     @media(min-width: (@screen-sm-min - 100px)) {
+        &:not(.fi-actions) {
+            text-overflow: ellipsis;
+            padding: 10px 15px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
         &.fi-name {
             flex: 3;
         }
@@ -229,14 +215,23 @@ div.fesl-row {
         &.fi-modified {
             font-size: 12px;
             color: #B5B5B5;
-        }
-
-        &.fi-size {
             float: left;
         }
 
         &.fi-modified {
-            float: right;
+            max-width: 72px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        &.fi-size {
+            margin-right: 10px;
+        }
+
+        &.fi-actions {
+            position: absolute;
+            top: 5px;
+            right: 10px;
         }
     }
 }
@@ -279,8 +274,8 @@ div.fesl-row {
         background: #fff;
         .transition(all);
         .transition-duration(300ms);
-        content: '';
         .scale(0);
+        content: '';
         z-index:1;
     }
 }
