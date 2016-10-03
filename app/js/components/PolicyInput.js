@@ -53,17 +53,18 @@ class PolicyInput extends Component {
 
   render() {
     return (
-      <div className="pmb-list">
+      <header className="pmb-list">
         <div className="pmbl-item">
           <input type="text"
                  className="form-control"
+                 placeholder="Object name"
                  editable={true}
                  defaultValue={this.state.prefix}
                  onChange={this.handleBucketPrefixChange.bind(this)} />
         </div>
 
         <div className="pmbl-item">
-          <select value={this.state.policy}
+          <select className="form-control" value={this.state.policy}
                   onChange={this.handlePolicyChange.bind(this)}>
             <option value={READ_ONLY}>Read Only</option>
             <option value={WRITE_ONLY}>Write Only</option>
@@ -75,7 +76,7 @@ class PolicyInput extends Component {
           <button className="btn btn-sm btn-block btn-primary" onClick={this.handlePolicySubmit.bind(this)}>Add</button>
         </div>
 
-      </div>
+      </header>
     )
   }
 }

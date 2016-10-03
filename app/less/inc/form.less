@@ -11,7 +11,9 @@
 select.form-control {
     -webkit-appearance: none;
     -moz-appearance: none;
-    border-radius: 0px;
+    border-radius: 0;
+    background: url(../../img/select-caret.svg) no-repeat bottom 7px right;
+
 }
 
 
@@ -79,6 +81,7 @@ select.form-control {
     z-index: 1;
     border-bottom: 1px solid #eee;
     color: #32393F;
+    font-size: 13px;
 
 
     &:focus + .ig-helpers {
@@ -103,7 +106,7 @@ select.form-control {
     }
 }
 
-.input-group-dark {
+.ig-dark {
     .ig-text {
         color: #fff;
         border-color: rgba(255,255,255,0.1);
@@ -112,16 +115,14 @@ select.form-control {
     .ig-helpers {
         &:before,
         &:after {
-            background-color: #fff;
+            background-color: #dfdfdf;
+            height: 1px;
         }
     }
 }
 
 .ig-left {
-    .ig-label {
-        text-align: left;
-    }
-
+    .ig-label,
     .ig-text {
         text-align: left;
     }
@@ -151,5 +152,20 @@ select.form-control {
         right: 9px;
         font-size: 20px;
         color: #D33D3E;
+    }
+}
+
+.ig-search {
+    &:before {
+        font-family: @font-family-icon;
+        content: '\f002';
+        font-size: 15px;
+        position: absolute;
+        left: 2px;
+        top: 8px;
+    }
+
+    .ig-text {
+        padding-left: 25px;
     }
 }

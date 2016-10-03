@@ -32,7 +32,7 @@ let SideBar = ({ visibleBuckets, loadBucket, currentBucket, selectBucket, search
                 {bucket === loadBucket ? <span className="loading l-bucket"><i /></span> : ''}
             </a>
 
-            <i className="fa fa-ellipsis-h" onClick={showPolicy}></i>
+            <i className="fesli-trigger" onClick={showPolicy}></i>
         </li>
     })
 
@@ -42,14 +42,14 @@ let SideBar = ({ visibleBuckets, loadBucket, currentBucket, selectBucket, search
                 <div className="fes-header clearfix hidden-sm hidden-xs">
                     <a href="" onClick={landingPage}>
                         <img src={logo} alt=""/>
-                        <h2 className="fe-h2">Minio Browser</h2>
+                        <h2>Minio Browser</h2>
                     </a>
                 </div>
 
                 <div className="fes-list">
-                    <div className="fesl-search">
-                        <input type="text" onChange={searchBuckets} placeholder="Search Buckets..."/>
-                        <i></i>
+                    <div className="input-group ig-dark ig-left ig-search">
+                        <input className="ig-text" type="text" onChange={searchBuckets} placeholder="Search Buckets..."/>
+                        <i className="ig-helpers"></i>
                     </div>
                     <div className="fesl-inner">
                         <Scrollbars

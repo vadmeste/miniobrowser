@@ -128,35 +128,32 @@ class SettingsModal extends React.Component {
         let { settings } = this.props
 
         return (
-            <Modal bsSize="sm" show={true}>
+            <Modal bsSize="sm" animation={false} show={true}>
                 <ModalHeader>
                     Change Password
                 </ModalHeader>
-                <ModalBody className="m-t-20">
 
+                <ModalBody className="m-t-20">
                     <InputGroup value={settings.accessKey} onChange={this.accessKeyChange.bind(this)} id="accessKey" label="Access Key" name="accesskey" type="text" spellCheck="false" required="required" autoComplete="false" align="ig-left" readonly={settings.keysReadOnly} ></InputGroup>
 
-                    <div className="p-relative">
-                        <InputGroup value={settings.secretKey} onChange={this.secretKeyChange.bind(this)} id="secretKey" label="Secret Key" name="accesskey" type={settings.secretKeyVisible ? "text" : "password"} spellCheck="false" required="required" autoComplete="false" align="ig-left" readonly={settings.keysReadOnly}></InputGroup>
-                        <i onClick={this.secretKeyVisible.bind(this, !settings.secretKeyVisible)} className={"toggle-password fa fa-eye " + (settings.secretKeyVisible ? "toggled" : "")} />
-                    </div>
+                    <i onClick={this.secretKeyVisible.bind(this, !settings.secretKeyVisible)} className={"toggle-password fa fa-eye " + (settings.secretKeyVisible ? "toggled" : "")} />
+                    <InputGroup value={settings.secretKey} onChange={this.secretKeyChange.bind(this)} id="secretKey" label="Secret Key" name="accesskey" type={settings.secretKeyVisible ? "text" : "password"} spellCheck="false" required="required" autoComplete="false" align="ig-left" readonly={settings.keysReadOnly}></InputGroup>
 
-                    <div className="clearfix" />
                 </ModalBody>
 
-                <div className="modal-footer clearfix p-t-0">
-                    <OverlayTrigger placement="bottom" overlay={<Tooltip id="tt-password-generate">Generate Keys</Tooltip>}>
-                        <a href="" className={"mf-btn mf-highlight "  + (settings.keysReadOnly ? "hidden" : "")} onClick={this.generateAuth.bind(this)}>
-                            <i className="fa fa-repeat"></i>
-                        </a>
-                    </OverlayTrigger>
-
-                    <a href="" className={"mf-btn " + (settings.keysReadOnly ? "hidden" : "")} onClick={this.setAuth.bind(this)}>
+                <div className="modal-footer">
+                    <button className={"mf-btn mfb-justified mfb-highlight "  + (settings.keysReadOnly ? "hidden" : "")} onClick={this.generateAuth.bind(this)}>
+                        <i className="fa fa-repeat"></i>
+                        <span>Generate<br/>Keys</span>
+                    </button>
+                    <button href="" className={"mf-btn mfb-justified " + (settings.keysReadOnly ? "hidden" : "")} onClick={this.setAuth.bind(this)}>
                         <i className="fa fa-check"></i>
-                    </a>
-                    <a href="" className="mf-btn" onClick={this.hideSettings.bind(this)}>
+                        <span>Update</span>
+                    </button>
+                    <button href="" className="mf-btn mfb-justified" onClick={this.hideSettings.bind(this)}>
                         <i className="fa fa-times"></i>
-                    </a>
+                        <span>Cancel</span>
+                    </button>
                 </div>
             </Modal>
         )

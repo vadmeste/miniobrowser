@@ -20,10 +20,10 @@ import ModalBody from 'react-bootstrap/lib/ModalBody'
 
 let ConfirmModal = ({ baseClass, icon, text, sub, okText, okIcon, cancelText, cancelIcon, okHandler, cancelHandler, show }) => {
     return (
-        <Modal bsSize="small" animation={true} show={show} className={"modal-confirm "+(baseClass || '')}>
+        <Modal bsSize="small" animation={false} show={show} className={"modal-confirm "+(baseClass || '')}>
             <ModalBody>
                 <div className="mc-icon">
-                    <img src={icon} alt=""/>
+                    <i className={icon}></i>
                 </div>
                 <div className="mc-text">{text}</div>
                 <div className="mc-sub">{sub}</div>

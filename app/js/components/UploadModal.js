@@ -66,17 +66,19 @@ class UploadModal extends React.Component {
         // Show the abort modal.
         if (showAbortModal) {
             let baseClass = classNames({'abort-upload': true})
-            let okIcon = classNames({'fa': true, 'fa-stop': true})
-            let cancelIcon = classNames({'fa': true, 'fa-play': true})
+            let okIcon = classNames({'fa': true, 'fa-times': true})
+            let cancelIcon = classNames({'fa': true, 'fa-cloud-upload': true})
 
             return (
                 <ConfirmModal
                     show={true}
                     baseClass={baseClass}
-                    text="Abort uploads in progress?"
+                    text='Abort uploads in progress?'
+                    icon='fa fa-info-circle mci-amber'
+                    sub='This cannot be undone!'
                     okText='Abort'
                     okIcon={okIcon}
-                    cancelText='Continue'
+                    cancelText='Upload'
                     cancelIcon={cancelIcon}
                     okHandler={this.abortUploads.bind(this)}
                     cancelHandler={this.hideAbort.bind(this)}>
@@ -108,7 +110,7 @@ class UploadModal extends React.Component {
         let text = 'Uploading ' + (numberUploading == 1 ? `'${uploads[Object.keys(uploads)[0]].name}'` : `files (${numberUploading})`) + '...'
 
         return (
-            <div className="alert progress animated fadeInUp alert-info">
+            <div className="alert alert-info progress animated fadeInUp ">
                 <button type="button" className="close" onClick={this.showAbort.bind(this)}>
                     <span>&times;</span>
                 </button>

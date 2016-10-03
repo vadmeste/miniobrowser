@@ -84,7 +84,7 @@ export default class Login extends React.Component {
                         <input name="fixBrowser" autoComplete="username" type="text" style={{display: 'none'}}/>
 
                         <InputGroup
-                            className="input-group-dark"
+                            className="ig-dark"
                             label="Access Key"
                             id="accessKey"
                             name="username"
@@ -98,7 +98,7 @@ export default class Login extends React.Component {
                         <input type="text" autoComplete="new-password" style={{ display: 'none' }}/>
 
                         <InputGroup
-                            className="input-group-dark"
+                            className="ig-dark"
                             label="Secret Key"
                             id="secretKey"
                             name="password"

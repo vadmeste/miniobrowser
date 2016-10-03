@@ -40,7 +40,6 @@ import PolicyInput from '../components/PolicyInput'
 import Policy from '../components/Policy'
 import ConfirmModal from './ConfirmModal'
 import logo from '../../img/logo.svg'
-import alertIcon from '../../img/alert.svg'
 import * as actions from '../actions'
 import * as utils from '../utils'
 import * as mime from '../mime'
@@ -307,7 +306,7 @@ export default class Browse extends React.Component {
             target = target.parentNode;
 
         let targetID = target.id;
-        if (!(targetID === 'mh-trigger')) {
+        if (!(targetID === 'feh-trigger')) {
             this.props.dispatch(actions.setSidebarStatus(false))
         }
     }
@@ -366,9 +365,9 @@ export default class Browse extends React.Component {
                     <Dropzone>
                     {alertBox}
 
-                    <header className="mobile-header hidden-lg hidden-md">
-                        <div id="mh-trigger" className={'mh-trigger '+ (classNames({'mht-toggled': sidebarStatus}))} onClick={this.toggleSidebar.bind(this, !sidebarStatus)}>
-                            <div className="mht-lines">
+                    <header className="fe-header-mobile hidden-lg hidden-md">
+                        <div id="feh-trigger" className={'feh-trigger '+ (classNames({'feht-toggled': sidebarStatus}))} onClick={this.toggleSidebar.bind(this, !sidebarStatus)}>
+                            <div className="feht-lines">
                                 <div className="top"></div>
                                 <div className="center"></div>
                                 <div className="bottom"></div>
@@ -399,7 +398,7 @@ export default class Browse extends React.Component {
                                     <Dropdown.Toggle noCaret>
                                         <i className="fa fa-reorder"></i>
                                     </Dropdown.Toggle>
-                                    <Dropdown.Menu className="dm-right">
+                                    <Dropdown.Menu className="dropdown-menu-right">
                                         <li>
                                             <a target="_blank" href="https://github.com/minio/miniobrowser">Github <i className="fa fa-github"></i></a>
                                         </li>
@@ -452,6 +451,7 @@ export default class Browse extends React.Component {
                                   'fa-sort-numeric-asc': !sortDateOrder
                                 })}/>
                             </div>
+                            <div className="fesl-item fi-actions"></div>
                         </header>
                     </div>
 
@@ -485,29 +485,29 @@ export default class Browse extends React.Component {
                         </Dropdown.Menu>
                     </Dropdown>
 
-                    <Modal className="feb-modal" animation={false} show={showMakeBucketModal} onHide={this.hideMakeBucketModal.bind(this)}>
-
-                        <button className="close" onClick={this.hideMakeBucketModal.bind(this)}><span>&times;</span></button>
-
+                    <Modal className="modal-create-bucket" bsSize="small" animation={false} show={showMakeBucketModal} onHide={this.hideMakeBucketModal.bind(this)}>
+                        <button className="close close-alt" onClick={this.hideMakeBucketModal.bind(this)}><span>&times;</span></button>
                         <ModalBody>
                             <form onSubmit={this.makeBucket.bind(this)}>
-                                <div className="create-bucket">
-                                    <input type="text" ref="makeBucketRef" placeholder="Bucket Name" autoFocus/>
-                                    <i></i>
+                                <div className="input-group">
+                                    <input className="ig-text" type="text" ref="makeBucketRef" placeholder="Bucket Name" autoFocus/>
+                                    <i className="ig-helpers"></i>
                                 </div>
                             </form>
                         </ModalBody>
                     </Modal>
 
-                    <Modal className="about-modal modal-dark" show={showAbout} onHide={this.hideAbout.bind(this)}>
-                        <div className="am-inner">
-                            <div className="ami-item hidden-xs">
+                    <Modal className="modal-about modal-dark" animation={false} show={showAbout} onHide={this.hideAbout.bind(this)}>
+                        <button className="close" onClick={this.hideAbout.bind(this)}><span>&times;</span></button>
+
+                        <div className="ma-inner">
+                            <div className="mai-item hidden-xs">
                                 <a href="https://minio.io" target="_blank">
-                                   <img className="amii-logo" src={logo} alt=""/>
+                                   <img className="maii-logo" src={logo} alt=""/>
                                 </a>
                             </div>
-                            <div className="ami-item">
-                                <ul className="amii-list">
+                            <div className="mai-item">
+                                <ul className="maii-list">
                                     <li>
                                         <div>Version</div>
                                         <small>{version}</small>
@@ -525,22 +525,15 @@ export default class Browse extends React.Component {
                                         <small>{runtime}</small>
                                     </li>
                                 </ul>
-
-                                <div className="modal-footer p-0 p-t-10 text-left">
-                                    <a href="" className="mf-btn" onClick={this.hideAbout.bind(this)}>
-                                        <i className="fa fa-check"></i>
-                                    </a>
-                                </div>
                             </div>
                         </div>
                     </Modal>
 
-                    <Modal className="policy-modal" show={showBucketPolicy} onHide={this.hideBucketPolicy.bind(this)}>
+                    <Modal className="modal-policy" animation={false} show={showBucketPolicy} onHide={this.hideBucketPolicy.bind(this)}>
                         <ModalHeader>
                             Bucket Policy
-                            <a href="" className="mh-close" onClick={this.hideBucketPolicy.bind(this)}>
-                                <i className="fa fa-times"></i>
-                            </a>
+
+                            <button className="close close-alt" onClick={this.hideBucketPolicy.bind(this)}><span>&times;</span></button>
                         </ModalHeader>
 
                         <div className="pm-body">
@@ -553,11 +546,13 @@ export default class Browse extends React.Component {
 
                     <ConfirmModal
                         show={deleteConfirmation.show}
-                        icon={alertIcon}
-                        text="Are you sure you want to delete?"
-                        sub="This cannot be undone!"
-                        okIcon="fa fa-check"
-                        cancelIcon="fa fa-times"
+                        icon='fa fa-info-circle mci-red'
+                        text='Are you sure you want to delete?'
+                        sub='This cannot be undone!'
+                        okIcon='fa fa-trash-empty'
+                        okText='Delete'
+                        cancelIcon='fa fa-times'
+                        cancelText='Cancel'
                         okHandler={this.removeObject.bind(this)}
                         cancelHandler={this.hideDeleteConfirmation.bind(this)}>
                     </ConfirmModal>

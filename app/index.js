@@ -88,7 +88,7 @@ ReactDOM.render((
 ), document.getElementById('root'))
 
 //Page loader
-let delay = [10, 400]
+let delay = [0, 400]
 let i = 0
 
 function handleLoader() {
