@@ -44,6 +44,7 @@ import * as actions from '../actions'
 import * as utils from '../utils'
 import * as mime from '../mime'
 import { minioBrowserPrefix } from '../constants'
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 
 export default class Browse extends React.Component {
@@ -318,6 +319,12 @@ export default class Browse extends React.Component {
         dispatch(actions.showSettings())
     }
 
+    showMessage() {
+        const { dispatch } = this.props
+        dispatch(actions.showAlert({type: 'success', message: 'Link copied to clipboard!'}))
+        this.hideShareObjectModal()
+    }
+
     render() {
         const { total, free } = this.props.storageInfo
         const { showMakeBucketModal, alert, sortNameOrder, sortSizeOrder, sortDateOrder, showAbout, showBucketPolicy } = this.props
@@ -472,7 +479,7 @@ export default class Browse extends React.Component {
                                     <input type="file" onChange={this.uploadFile.bind(this)} style={{display:'none'}}
                                            id="file-input"></input>
                                     <label htmlFor="file-input">
-                                        <i style={{cursor:'pointer'}} className="fa fa-cloud-upload"></i>
+                                        <i className="fa fa-cloud-upload"></i>
                                     </label>
                                 </a>
                             </OverlayTrigger>
@@ -558,15 +565,28 @@ export default class Browse extends React.Component {
                     </ConfirmModal>
 
                     <Modal show={shareObject.show} animation={false} onHide={this.hideShareObjectModal.bind(this)} bsSize="small">
-                      <ModalBody>
-                        <div className="copy-text">
-                            <label>Shareable Link</label>
-
-                            <div className="p-relative">
+                        <ModalBody>
+                            <div className="copy-text">
+                                <label>Shareable Link</label>
                                 <input type="text" readOnly="readOnly" value={shareObject.url} />
                             </div>
+
+                            <div className={'ct-message '+ (classNames({'toggled': shareObject.clipboardStatus}))}>Link copied to clipboard</div>
+                        </ModalBody>
+
+                        <div className="modal-footer">
+                            <CopyToClipboard text={shareObject.url} onCopy={this.showMessage.bind(this)}>
+                                <button className="mf-btn mfb-highlight">
+                                    <i className="fa fa-copy"></i>
+                                    <span>Copy Link</span>
+                                </button>
+                            </CopyToClipboard>
+
+                            <button className="mf-btn" onClick={this.hideShareObjectModal.bind(this)}>
+                                <i className="fa fa-times"></i>
+                                <span>Cancel</span>
+                            </button>
                         </div>
-                      </ModalBody>
                     </Modal>
 
                     { settingsModal }
