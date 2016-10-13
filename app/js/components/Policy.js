@@ -51,7 +51,7 @@ class Policy extends Component {
           </div>
 
           <div className="pmbl-item">
-            <button className="btn btn-sm btn-block btn-danger" onClick={this.removePolicy.bind(this)}>Remove</button>
+            <button className="btn btn-block btn-danger" onClick={this.removePolicy.bind(this)}>Remove</button>
           </div>
       </div>
     )

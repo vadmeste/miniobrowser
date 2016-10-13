@@ -73,7 +73,7 @@ class PolicyInput extends Component {
         </div>
 
         <div className="pmbl-item">
-          <button className="btn btn-sm btn-block btn-primary" onClick={this.handlePolicySubmit.bind(this)}>Add</button>
+          <button className="btn btn-block btn-primary" onClick={this.handlePolicySubmit.bind(this)}>Add</button>
         </div>
 
       </header>

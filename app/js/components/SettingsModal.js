@@ -142,17 +142,14 @@ class SettingsModal extends React.Component {
                 </ModalBody>
 
                 <div className="modal-footer">
-                    <button className={"mf-btn mfb-justified mfb-highlight "  + (settings.keysReadOnly ? "hidden" : "")} onClick={this.generateAuth.bind(this)}>
-                        <i className="fa fa-repeat"></i>
-                        <span>Generate<br/>Keys</span>
+                    <button className={"btn btn-primary "  + (settings.keysReadOnly ? "hidden" : "")} onClick={this.generateAuth.bind(this)}>
+                        Generate
                     </button>
-                    <button href="" className={"mf-btn mfb-justified " + (settings.keysReadOnly ? "hidden" : "")} onClick={this.setAuth.bind(this)}>
-                        <i className="fa fa-check"></i>
-                        <span>Update</span>
+                    <button href="" className={"btn btn-success " + (settings.keysReadOnly ? "hidden" : "")} onClick={this.setAuth.bind(this)}>
+                        Update
                     </button>
-                    <button href="" className="mf-btn mfb-justified" onClick={this.hideSettings.bind(this)}>
-                        <i className="fa fa-times"></i>
-                        <span>Cancel</span>
+                    <button href="" className="btn btn-link" onClick={this.hideSettings.bind(this)}>
+                        Cancel
                     </button>
                 </div>
             </Modal>

@@ -18,7 +18,7 @@ import React from 'react'
 import Modal from 'react-bootstrap/lib/Modal'
 import ModalBody from 'react-bootstrap/lib/ModalBody'
 
-let ConfirmModal = ({ baseClass, icon, text, sub, okText, okIcon, cancelText, cancelIcon, okHandler, cancelHandler, show }) => {
+let ConfirmModal = ({ baseClass, icon, text, sub, okText, cancelText, okHandler, cancelHandler, show }) => {
     return (
         <Modal bsSize="small" animation={false} show={show} className={"modal-confirm "+(baseClass || '')}>
             <ModalBody>
@@ -29,8 +29,8 @@ let ConfirmModal = ({ baseClass, icon, text, sub, okText, okIcon, cancelText, ca
                 <div className="mc-sub">{sub}</div>
             </ModalBody>
             <div className="modal-footer">
-                <button className="mf-btn" onClick={okHandler}><i className={okIcon}></i>{okText}</button>
-                <button className="mf-btn" onClick={cancelHandler}><i className={cancelIcon}></i>{cancelText}</button>
+                <button className="btn btn-danger" onClick={okHandler}>{okText}</button>
+                <button className="btn btn-link" onClick={cancelHandler}>{cancelText}</button>
             </div>
         </Modal>
     )

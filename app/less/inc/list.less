@@ -87,7 +87,7 @@ div.fesl-row {
         font-size: 16px;
         left: 50px;
         top: 9px;
-        color: #fff;
+        color: @white;
 
         @media (max-width: (@screen-xs-max - 100px)) {
             left: 20px;
@@ -280,7 +280,7 @@ div.fesl-row {
 .fiad-action {
     height: 35px;
     width: 35px;
-    background: #ffc107;
+    background: @amber;
     display: inline-block;
     border-radius: 50%;
     text-align: center;
@@ -303,12 +303,12 @@ div.fesl-row {
     }
 
     & > i {
-        font-size: 16px;
-        color: #fff;
+        font-size: 14px;
+        color: @white;
     }
 
     &:hover {
-        background-color: darken(#ffc107, 3%);
+        background-color: darken(@amber, 3%);
     }
 }
 

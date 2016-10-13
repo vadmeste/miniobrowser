@@ -553,12 +553,10 @@ export default class Browse extends React.Component {
 
                     <ConfirmModal
                         show={deleteConfirmation.show}
-                        icon='fa fa-info-circle mci-red'
+                        icon='fa fa-attention mci-red'
                         text='Are you sure you want to delete?'
                         sub='This cannot be undone!'
-                        okIcon='fa fa-trash-empty'
                         okText='Delete'
-                        cancelIcon='fa fa-times'
                         cancelText='Cancel'
                         okHandler={this.removeObject.bind(this)}
                         cancelHandler={this.hideDeleteConfirmation.bind(this)}>
@@ -576,16 +574,10 @@ export default class Browse extends React.Component {
 
                         <div className="modal-footer">
                             <CopyToClipboard text={shareObject.url} onCopy={this.showMessage.bind(this)}>
-                                <button className="mf-btn mfb-highlight">
-                                    <i className="fa fa-copy"></i>
-                                    <span>Copy Link</span>
-                                </button>
+                                <button className="btn btn-success">Copy Link</button>
                             </CopyToClipboard>
 
-                            <button className="mf-btn" onClick={this.hideShareObjectModal.bind(this)}>
-                                <i className="fa fa-times"></i>
-                                <span>Cancel</span>
-                            </button>
+                            <button className="btn btn-link" onClick={this.hideShareObjectModal.bind(this)}>Cancel</button>
                         </div>
                     </Modal>
 
