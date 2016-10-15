@@ -12,7 +12,7 @@ $ npm install
 
 ### Install `go-bindata` and `go-bindata-assetfs`.
 
-If you do not have a working Golang environment, please follow [Install Golang](./INSTALLGO.md).
+If you do not have a working Golang environment, please follow [Install Golang](https://docs.minio.io/docs/how-to-install-golang)
 
 ```sh
 $ go get github.com/jteeuwen/go-bindata/...
