@@ -332,6 +332,10 @@ export default class Browse extends React.Component {
         this.hideShareObjectModal()
     }
 
+    selectTexts() {
+        this.refs.copyTextInput.select()
+    }
+
     render() {
         const { total, free } = this.props.storageInfo
         const { showMakeBucketModal, alert, sortNameOrder, sortSizeOrder, sortDateOrder, showAbout, showBucketPolicy } = this.props
@@ -576,10 +580,8 @@ export default class Browse extends React.Component {
                         <ModalBody>
                             <div className="copy-text">
                                 <label>Shareable Link</label>
-                                <input type="text" readOnly="readOnly" value={shareObject.url} />
+                                <input type="text" ref="copyTextInput" readOnly="readOnly" value={shareObject.url} onClick={this.selectTexts.bind(this)}/>
                             </div>
-
-                            <div className={'ct-message '+ (classNames({'toggled': shareObject.clipboardStatus}))}>Link copied to clipboard</div>
                         </ModalBody>
 
                         <div className="modal-footer">
