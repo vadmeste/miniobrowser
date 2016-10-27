@@ -38,6 +38,7 @@ import reducer from './js/reducers.js'
 
 import _Login from './js/components/Login.js'
 import _Browse from './js/components/Browse.js'
+import fontAwesome from 'font-awesome/css/font-awesome.css'
 
 import Web from './js/web'
 window.Web = Web

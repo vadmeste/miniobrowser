@@ -32,7 +32,7 @@ let ObjectsList = ({ objects, currentPath, selectPrefix, dataType, showDeleteCon
                               <Dropdown.Toggle noCaret className="fia-toggle"></Dropdown.Toggle>
                               <Dropdown.Menu>
                                   <a href="" className="fiad-action" onClick={(e) => shareObject(e, `${currentPath}${object.name}`)} ><i className="fa fa-copy"></i></a>
-                                  <a href="" className="fiad-action" onClick={(e) => showDeleteConfirmation(e, `${currentPath}${object.name}`)} ><i className="fa fa-trash-empty"></i></a>
+                                  <a href="" className="fiad-action" onClick={(e) => showDeleteConfirmation(e, `${currentPath}${object.name}`)} ><i className="fa fa-trash"></i></a>
                               </Dropdown.Menu>
                           </Dropdown>
         }
