@@ -129,7 +129,7 @@ export default class Browse extends React.Component {
             if (prefix === currentPath) return
             browserHistory.push(utils.pathJoin(currentBucket, prefix))
         } else {
-            window.location = `${window.location.origin}/minio/download/${currentBucket}/${prefix}?token=${localStorage.token}`
+            window.location = `${window.location.origin}/minio/download/${currentBucket}/${prefix}?token=${storage.getItem('token')}`
         }
     }
 

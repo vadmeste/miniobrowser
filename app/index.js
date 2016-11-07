@@ -43,6 +43,8 @@ import fontAwesome from 'font-awesome/css/font-awesome.css'
 import Web from './js/web'
 window.Web = Web
 
+import storage from 'local-storage-fallback'
+
 const store = applyMiddleware(thunkMiddleware)(createStore)(reducer)
 const Browse = connect(state => state)(_Browse)
 const Login = connect(state => state)(_Login)
@@ -103,7 +105,7 @@ function handleLoader() {
 }
 handleLoader()
 
-if (localStorage.newlyUpdated) {
+if (storage.getItem('newlyUpdated')) {
   store.dispatch(actions.showAlert({type: 'success', message: "Updated to the latest UI Version."}))
-  delete(localStorage.newlyUpdated)
+  storage.removeItem('newlyUpdated')
 }

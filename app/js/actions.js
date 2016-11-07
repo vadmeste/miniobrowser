@@ -343,7 +343,7 @@ export const uploadFile = (file, xhr) => {
 
     xhr.open('PUT', uploadUrl, true)
     xhr.withCredentials = false
-    xhr.setRequestHeader("Authorization", 'Bearer ' + localStorage.token)
+    xhr.setRequestHeader("Authorization", 'Bearer ' + storage.getItem('token'))
     xhr.setRequestHeader('x-amz-date', Moment().utc().format('YYYYMMDDTHHmmss') + 'Z')
     dispatch(addUpload({slug, xhr, size: file.size, name: file.name}))
 

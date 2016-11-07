@@ -19,6 +19,7 @@ import JSONrpc from './jsonrpc'
 import * as  actions from './actions'
 import { minioBrowserPrefix } from './constants.js'
 import Moment from 'moment'
+import storage from 'local-storage-fallback'
 
 export default class Web {
   constructor(endpoint,  dispatch) {
@@ -31,10 +32,10 @@ export default class Web {
   makeCall(method, options) {
     return this.JSONrpc.call(method, {
       params: options
-    }, localStorage.token)
+    }, storage.getItem('token'))
     .catch(err => {
       if (err.status === 401) {
-        delete(localStorage.token)
+        storage.removeItem('token')
         browserHistory.push(`${minioBrowserPrefix}/login`)
         throw new Error('Please re-login.')
       }
@@ -53,24 +54,24 @@ export default class Web {
       }
       if (result.uiVersion !== currentUiVersion
           && currentUiVersion !== 'MINIO_UI_VERSION') {
-        localStorage.newlyUpdated = true
+        storage.setItem('newlyUpdated', true)
         location.reload()
       }
       return result
     })
   }
   LoggedIn() {
-    return !!localStorage.token
+    return !!storage.getItem('token')
   }
   Login(args) {
     return this.makeCall('Login', args)
                 .then(res => {
-                  localStorage.token = `${res.token}`
+                  storage.setItem('token', `${res.token}`)
                   return res
                 })
   }
   Logout() {
-    delete(localStorage.token)
+    storage.removeItem('token')
   }
   ServerInfo() {
     return this.makeCall('ServerInfo')
@@ -105,7 +106,7 @@ export default class Web {
   SetAuth(args) {
     return this.makeCall('SetAuth', args)
                 .then(res => {
-                  localStorage.token = `${res.token}`
+                  storage.setItem('token', `${res.token}`)
                   return res
                 })
   }
