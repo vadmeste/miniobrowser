@@ -45,6 +45,7 @@ import * as utils from '../utils'
 import * as mime from '../mime'
 import { minioBrowserPrefix } from '../constants'
 import CopyToClipboard from 'react-copy-to-clipboard';
+import storage from 'local-storage-fallback'
 
 
 export default class Browse extends React.Component {

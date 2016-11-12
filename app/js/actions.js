@@ -18,6 +18,7 @@ import url from 'url'
 import Moment from 'moment'
 import web from './web'
 import * as utils from './utils'
+import storage from 'local-storage-fallback'
 
 export const SET_WEB = 'SET_WEB'
 export const SET_CURRENT_BUCKET = 'SET_CURRENT_BUCKET'
