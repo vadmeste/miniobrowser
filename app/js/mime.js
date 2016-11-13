@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import mimedb from 'mime'
+
 const isFolder = (name, contentType) => {
   if (name.endsWith('/')) return true
   return false
@@ -82,6 +84,9 @@ const typeToIcon = (type) => {
 }
 
 export const getDataType = (name, contentType) => {
+  if (contentType === "") {
+    contentType = mimedb.lookup(name)
+  }
   const check = [
     ['folder', isFolder],
     ['code', isCode],

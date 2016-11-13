@@ -41,12 +41,18 @@ var exports = {
         test: /\.less$/,
         loader: 'style!css!less'
       }, {
+        test: /\.json$/,
+        loader: 'json-loader'
+      },{
         test: /\.css$/,
         loader: 'style!css'
       }, {
         test: /\.(eot|woff|woff2|ttf|svg|png)/,
         loader: 'url'
       }]
+  },
+  node:{
+    fs:'empty'
   },
   devServer: {
     historyApiFallback: {
