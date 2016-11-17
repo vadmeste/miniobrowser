@@ -47,6 +47,9 @@ var exports = {
         loader: 'url'
       }]
   },
+  node:{
+    fs:'empty'
+  },
   plugins: [
     new CopyWebpackPlugin([
       {from: 'app/css/loader.css'},
