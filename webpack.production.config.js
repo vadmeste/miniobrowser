@@ -40,6 +40,9 @@ var exports = {
         test: /\.less$/,
         loader: 'style!css!less'
       }, {
+        test: /\.json$/,
+        loader: 'json-loader'
+      }, {
         test: /\.css$/,
         loader: 'style!css'
       }, {

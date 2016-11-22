@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import mimedb from 'mime'
+import mimedb from 'mime-types'
 
 const isFolder = (name, contentType) => {
   if (name.endsWith('/')) return true
@@ -85,7 +85,7 @@ const typeToIcon = (type) => {
 
 export const getDataType = (name, contentType) => {
   if (contentType === "") {
-    contentType = mimedb.lookup(name)
+    contentType = mimedb.lookup(name) || 'application/octet-stream'
   }
   const check = [
     ['folder', isFolder],
