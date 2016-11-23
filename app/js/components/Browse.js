@@ -554,8 +554,7 @@ export default class Browse extends React.Component {
 
                     <Modal className="modal-policy" animation={false} show={showBucketPolicy} onHide={this.hideBucketPolicy.bind(this)}>
                         <ModalHeader>
-                            Bucket Policy
-
+                            Bucket Policy ({currentBucket})
                             <button className="close close-alt" onClick={this.hideBucketPolicy.bind(this)}><span>&times;</span></button>
                         </ModalHeader>
 
