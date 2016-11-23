@@ -93,12 +93,12 @@ export const hideShareObject = () => {
   }
 }
 
-export const shareObject = (object) => (dispatch, getState) => {
+export const shareObject = (object, expiry) => (dispatch, getState) => {
   const { currentBucket, web } = getState()
   let host = location.host
   let bucket = currentBucket
 
-  web.PresignedGet({host, bucket, object})
+  web.PresignedGet({host, bucket, object, expiry})
      .then(obj => {
        dispatch(showShareObject(obj.url))
      })

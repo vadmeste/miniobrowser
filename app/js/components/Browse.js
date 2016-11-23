@@ -236,10 +236,10 @@ export default class Browse extends React.Component {
       dispatch(actions.hideDeleteConfirmation())
     }
 
-    shareObject(e, object) {
+    shareObject(e, object, expiry) {
       e.preventDefault()
       const { dispatch } = this.props
-      dispatch(actions.shareObject(object))
+      dispatch(actions.shareObject(object, expiry))
     }
 
     hideShareObjectModal() {
