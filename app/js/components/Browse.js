@@ -44,9 +44,8 @@ import * as actions from '../actions'
 import * as utils from '../utils'
 import * as mime from '../mime'
 import { minioBrowserPrefix } from '../constants'
-import CopyToClipboard from 'react-copy-to-clipboard';
+import CopyToClipboard from 'react-copy-to-clipboard'
 import storage from 'local-storage-fallback'
-
 
 export default class Browse extends React.Component {
     componentDidMount() {
@@ -337,6 +336,16 @@ export default class Browse extends React.Component {
         this.refs.copyTextInput.select()
     }
 
+    handleExpireValue(targetInput, inc) {
+        inc === -1 ? this.refs[targetInput].stepDown(1) : this.refs[targetInput].stepUp(1)
+
+        if(this.refs.setExpireDays.value == 7) {
+            this.refs.setExpireHours.value = 0
+            this.refs.setExpireMins.value = 0
+        }
+    }
+
+
     render() {
         const { total, free } = this.props.storageInfo
         const { showMakeBucketModal, alert, sortNameOrder, sortSizeOrder, sortDateOrder, showAbout, showBucketPolicy } = this.props
@@ -578,10 +587,50 @@ export default class Browse extends React.Component {
                     </ConfirmModal>
 
                     <Modal show={shareObject.show} animation={false} onHide={this.hideShareObjectModal.bind(this)} bsSize="small">
+                        <ModalHeader>
+                            Share Object
+                        </ModalHeader>
                         <ModalBody>
-                            <div className="copy-text">
+                            <div className="input-group copy-text">
                                 <label>Shareable Link</label>
                                 <input type="text" ref="copyTextInput" readOnly="readOnly" value={window.location.protocol + '//' + shareObject.url} onClick={this.selectTexts.bind(this)}/>
+                            </div>
+
+                            <div className="input-group">
+                                <label>Expires in</label>
+
+                                <div className="set-expire">
+                                    <div className="set-expire-item">
+                                        <i className="set-expire-increase" onClick={this.handleExpireValue.bind(this, 'setExpireDays', 1)}></i>
+
+
+
+                                        <div className="set-expire-title">Days</div>
+                                        <div className="set-expire-value">
+                                            <input ref="setExpireDays" type="number" min="1" max="7" defaultValue={7}/>
+                                        </div>
+                                        <i className="set-expire-decrease" onClick={this.handleExpireValue.bind(this, 'setExpireDays', -1)}></i>
+                                    </div>
+
+                                    <div className="set-expire-item">
+                                        <i className="set-expire-increase" onClick={this.handleExpireValue.bind(this, 'setExpireHours', 1)}></i>
+                                        <div className="set-expire-title">Hours</div>
+                                        <div className="set-expire-value">
+                                            <input ref="setExpireHours" type="number" min="0" max="24" defaultValue={0}/>
+                                        </div>
+                                        <i className="set-expire-decrease" onClick={this.handleExpireValue.bind(this, 'setExpireHours', -1)}></i>
+                                    </div>
+
+                                    <div className="set-expire-item">
+                                        <i className="set-expire-increase" onClick={this.handleExpireValue.bind(this, 'setExpireMins', 1)}></i>
+                                        <div className="set-expire-title">Minutes</div>
+                                        <div className="set-expire-value">
+                                            <input ref="setExpireMins" type="number" min="0" max={60} defaultValue={0}/>
+                                        </div>
+                                        <i className="set-expire-decrease" onClick={this.handleExpireValue.bind(this, 'setExpireMins', -1)}></i>
+                                    </div>
+                                </div>
+
                             </div>
                         </ModalBody>
 
@@ -602,3 +651,5 @@ export default class Browse extends React.Component {
         )
     }
 }
+
+
